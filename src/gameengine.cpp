@@ -10,6 +10,10 @@ GameEngine::~GameEngine() {
 
 bool GameEngine::Init() {
 
+    title = "Platofrmer";
+    width_window = 960;
+    height_window = 640;
+
     if (!InitSDL()) {
 
         SDL_Log("Error: Cannot init SDL (GameEngine)");
@@ -27,10 +31,6 @@ bool GameEngine::Init() {
         SDL_Log("Error: Cannot init states (GameEngine)");
         return false;
     }
-
-    title = "Platofrmer";
-    width_window = 960;
-    height_window = 640;
 
     return true;
 }
@@ -94,7 +94,12 @@ bool GameEngine::InitSDL() {
 
 bool GameEngine::InitStates() {
 
+    bool succes = true;
+
     game_state_machine.PushBack(MAINGAME_STATE, new MainGameState(width_window, height_window, {0, 0}, render));
 
     game_state_machine.ChangeState(MAINGAME_STATE);
+
+    // TODO catch state init errors
+    return succes;
 }

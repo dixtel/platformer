@@ -2,6 +2,8 @@
 
 GameStateMachine::GameStateMachine() {
 
+    // TDDO change this to start game state
+    current_game_state = MAINGAME_STATE;
 }
 
 GameStateMachine::~GameStateMachine() {

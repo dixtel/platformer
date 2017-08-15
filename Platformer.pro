@@ -15,7 +15,6 @@ SOURCES += \
     src/rectangle.cpp \
     src/window.cpp \
     src/rectanglecollision.cpp \
-    src/player.cpp \
     src/gamestatemachine.cpp \
     src/gameengine.cpp \
     src/states/maingamestate.cpp \
@@ -36,7 +35,6 @@ HEADERS += \
     include/rectangle.h \
     include/window.h \
     include/rectanglecollision.h \
-    include/player.h \
     include/gamestate.h \
     include/gamestatemachine.h \
     include/gameengine.h \

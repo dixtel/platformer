@@ -14,7 +14,7 @@ SDL_Texture *ImageLoader::LoadImage(char *path) {
         return nullptr;
     }
 
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(render-, surface);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(render->GetRenderer(), surface);
 
     if (texture == nullptr) {
 

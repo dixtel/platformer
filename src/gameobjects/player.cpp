@@ -1,4 +1,4 @@
-#include "include/player.h"
+#include "include/gameobjects/player.h"
 
 Player::Player() {
 

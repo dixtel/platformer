@@ -1,15 +1,18 @@
 #include "include/states/maingamestate.h"
 
-MainGameState::MainGameState(const unsigned state_width, const unsigned state_height, Vector2f viewpoint, Render *render) {
+MainGameState::MainGameState(const unsigned width_state, const unsigned height_state, Vector2f viewpoint, Render *render) {
 
     this->viewpoint = viewpoint;
     this->render = render;
     this->width_state = width_state;
     this->height_state = height_state;
 
+    image_loader.Init(render);
+
     game_exit = false;
-    game_object_manager.CreateObject("player", Player());
-    game_object_manager.GetGameObject("player")->Init({250, 250}, {50, 50}, );
+    game_object_manager.CreateObject("player", new Player());
+    game_object_manager.GetGameObject("player")->Init({250, 250}, {50, 50}, image_loader.LoadImage("res/textures/player.png"));
+
 }
 
 MainGameState::~MainGameState() {
@@ -23,7 +26,9 @@ void MainGameState::UpdateState(float dt) {
 
 void MainGameState::RenderState() {
 
+    // TODO add viewpoint
     render->Clear();
+    render->Draw(game_object_manager.GetGameObject("player")->GetRectangle());
     render->Display();
 }
 

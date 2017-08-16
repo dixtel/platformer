@@ -12,6 +12,8 @@ MainGameState::MainGameState(const unsigned width_state, const unsigned height_s
     game_exit = false;
     game_object_manager.CreateObject("player", new Player());
     game_object_manager.GetGameObject("player")->Init({250, 250}, {50, 50}, image_loader.LoadImage("res/textures/player.png"));
+    game_object_manager.CreateObject("ground", new Ground());
+    game_object_manager.GetGameObject("ground")->Init({250, 400}, {50, 50}, image_loader.LoadImage("res/textures/ground.png"));
 
 }
 
@@ -29,6 +31,7 @@ void MainGameState::RenderState() {
     // TODO add viewpoint
     render->Clear();
     render->Draw(game_object_manager.GetGameObject("player")->GetRectangle());
+    render->Draw(game_object_manager.GetGameObject("ground")->GetRectangle());
     render->Display();
 }
 

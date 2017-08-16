@@ -39,6 +39,10 @@ void GameEngine::CleanUp() {
 
     delete render;
     render = nullptr;
+
+    SDL_Quit();
+    IMG_Quit();
+    TTF_Quit();
 }
 
 void GameEngine::Start() {

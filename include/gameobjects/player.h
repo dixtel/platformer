@@ -9,13 +9,6 @@
 
 #include "include/vectro2.h"
 
-enum PLAYER_INPUT_TYPE {
-    MOVE_RIGHT,
-    MOVE_LEFT,
-    JUMP,
-    NONE
-};
-
 class Player : public GameObject
 {
 public:
@@ -26,7 +19,7 @@ public:
 
     void UpdatePhysics(float dt);
     void Update();
-    void HandleInput(PLAYER_INPUT_TYPE input);
+    void HandleInput(GameObjectInput::Type input);
 
     void OnGround();
 
@@ -35,7 +28,6 @@ public:
 
 private:
 
-    SDL_Texture *texture = nullptr;
     SDL_Rect destination_texture;
 
     Rectangle rectangle;

@@ -5,6 +5,7 @@
 
 #include "include/gameobject.h"
 #include "include/gameobjects/player.h"
+#include "include/gameobjects/ground.h"
 
 #include "map"
 

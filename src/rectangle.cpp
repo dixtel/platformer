@@ -3,7 +3,7 @@
 Rectangle::Rectangle() {
 
     fill_rect_color = {255, 0, 0, 255};
-    destination_texture_set = false;
+    source_texture_set = false;
 }
 
 Rectangle::~Rectangle() {
@@ -18,26 +18,26 @@ void Rectangle::SetPosition(Vector2f position) {
 
     this->position = position;
 
-    rectangle_rect.x = position.x;
-    rectangle_rect.y = position.y;
+    destination_rectangle.x = position.x;
+    destination_rectangle.y = position.y;
 }
 
 void Rectangle::SetSize(Vector2u size) {
 
     this->size = size;
 
-    rectangle_rect.w = size.x;
-    rectangle_rect.h = size.y;
+    destination_rectangle.w = size.x;
+    destination_rectangle.h = size.y;
 
-    if (destination_texture_set == false) {
+    if (source_texture_set == false) {
 
-        destination_texture = {0, 0, size.x, size.y};
+        source_texture = {0, 0, size.x, size.y};
     }
 }
 
 void Rectangle::SetTexture(SDL_Texture *texture) {
 
-    if (texture) {
+    if (this->texture) {
 
         SDL_DestroyTexture(texture);
     }
@@ -45,10 +45,10 @@ void Rectangle::SetTexture(SDL_Texture *texture) {
     this->texture = texture;
 }
 
-void Rectangle::SetDestinationTexture(SDL_Rect destination) {
+void Rectangle::SetSourceTexture(SDL_Rect destination) {
 
-    destination_texture = destination;
-    destination_texture_set = true;
+    source_texture = destination;
+    source_texture_set = true;
 }
 
 void Rectangle::SetRectColor(SDL_Color color) {
@@ -72,14 +72,14 @@ SDL_Texture *Rectangle::GetTexture() {
     return texture;
 }
 
-SDL_Rect &Rectangle::GetRect() {
+SDL_Rect &Rectangle::GetRectDestination() {
 
-    return rectangle_rect;
+    return destination_rectangle;
 }
 
-SDL_Rect &Rectangle::GetDestinationTexture() {
+SDL_Rect &Rectangle::GetSourceTexture() {
 
-    return destination_texture;
+    return source_texture;
 }
 
 SDL_Color Rectangle::GetRectColor() {

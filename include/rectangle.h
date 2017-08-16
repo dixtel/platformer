@@ -10,14 +10,14 @@
 class Rectangle
 {
     SDL_Texture *texture = nullptr;
-    SDL_Rect     destination_texture;
-    SDL_Rect     rectangle_rect;
+    SDL_Rect     destination_rectangle;
+    SDL_Rect     source_texture;
     SDL_Color    fill_rect_color;
 
     Vector2f position;
     Vector2u size;
 
-    bool destination_texture_set;
+    bool source_texture_set;
 public:
 
     Rectangle();
@@ -26,14 +26,14 @@ public:
     void SetPosition(Vector2f position);
     void SetSize(Vector2u size);
     void SetTexture(SDL_Texture *texture);
-    void SetDestinationTexture(SDL_Rect destination);
+    void SetSourceTexture(SDL_Rect destination);
     void SetRectColor(SDL_Color color);
 
     Vector2f GetPosition();
     Vector2u GetSize();
     SDL_Texture *GetTexture();
-    SDL_Rect &GetRect();
-    SDL_Rect &GetDestinationTexture();
+    SDL_Rect &GetRectDestination();
+    SDL_Rect &GetSourceTexture();
     SDL_Color GetRectColor();
 };
 

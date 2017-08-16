@@ -6,6 +6,14 @@ RectangleCollision::RectangleCollision() {
     old_position = {0, 0};
 }
 
+void RectangleCollision::Init(Vector2f position, Vector2u size, CollisionType::Type collision_type) {
+
+    this->size = size;
+    this->collision_type = collision_type;
+    old_position = position;
+    current_position = position;
+}
+
 Vector2f RectangleCollision::GetCurrentPoint(char point) {
 
     switch (point) {
@@ -59,6 +67,11 @@ void RectangleCollision::SetSize(Vector2u size) {
 
     this->size = size;
     Update();
+}
+
+CollisionType::Type RectangleCollision::GetCollisionType() {
+
+    return collision_type;
 }
 
 Vector2f RectangleCollision::GetPosition() {

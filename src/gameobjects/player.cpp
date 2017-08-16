@@ -13,7 +13,6 @@ void Player::Init(Vector2f position, Vector2u size, SDL_Texture *texture) {
 
     this->position = position;
     this->size = size;
-    this->texture = texture;
 
     destination_texture = {0, 0, size.x, size.y};
 
@@ -22,8 +21,7 @@ void Player::Init(Vector2f position, Vector2u size, SDL_Texture *texture) {
     rectangle.SetTexture(texture);
     rectangle.SetSourceTexture(destination_texture);
 
-    rectangle_collision.SetPosition(position);
-    rectangle_collision.SetSize(size);
+    rectangle_collision.Init(position, size, CollisionType::RIGHTBODY);
 
     Update();
 }
@@ -90,41 +88,46 @@ void Player::UpdatePhysics(float dt) {
     }
 
     position += velocity;
-
+    rectangle_collision.SetPosition(position);
 }
 
 void Player::Update() {
 
+    position = rectangle_collision.GetPosition();
+
     rectangle.SetPosition(position);
     rectangle.SetSize(size);
     rectangle.SetSourceTexture(destination_texture);
-
-    rectangle_collision.SetPosition(position);
-    rectangle_collision.SetSize(size);
 }
 
-void Player::HandleInput(PLAYER_INPUT_TYPE input) {
+void Player::HandleInput(GameObjectInput::Type input) {
 
-    if (input == MOVE_RIGHT) {
-
-        move_right = true;
-    }
-
-    if (input == MOVE_LEFT) {
-
-        move_left = true;
-    }
-
-    if (input == JUMP) {
-
-        jump = true;
-    }
-
-    if (input == NONE) {
+    if (input == GameObjectInput::NONE) {
 
         move_right = false;
         move_left = false;
         jump = false;
+
+        return;
+    }
+
+    if (input == GameObjectInput::RIGHT) {
+
+        move_right = true;
+    }
+
+    if (input == GameObjectInput:: LEFT) {
+
+        move_left = true;
+    }
+
+    if (input == GameObjectInput::UP) {
+
+        jump = true;
+    }
+
+    if (input == GameObjectInput::CLICK_ON_OBJECT) {
+
     }
 }
 

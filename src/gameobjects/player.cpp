@@ -20,7 +20,7 @@ void Player::Init(Vector2f position, Vector2u size, SDL_Texture *texture) {
     rectangle.SetPosition(position);
     rectangle.SetSize(size);
     rectangle.SetTexture(texture);
-    rectangle.SetDestinationTexture(destination_texture);
+    rectangle.SetSourceTexture(destination_texture);
 
     rectangle_collision.SetPosition(position);
     rectangle_collision.SetSize(size);
@@ -97,7 +97,7 @@ void Player::Update() {
 
     rectangle.SetPosition(position);
     rectangle.SetSize(size);
-    rectangle.SetDestinationTexture(destination_texture);
+    rectangle.SetSourceTexture(destination_texture);
 
     rectangle_collision.SetPosition(position);
     rectangle_collision.SetSize(size);

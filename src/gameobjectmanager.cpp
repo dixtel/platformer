@@ -2,10 +2,14 @@
 
 GameObjectManager::GameObjectManager() {
 
-    for (std::map<std::string, GameObject*>::iterator it = gameobjects.begin(); it != gameobjects.end(); ++it) {
+    for (std::map<std::string, std::map<std::string, GameObject*>> it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
-        delete it->second;
-        it->second = nullptr;
+        for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->seccond.begin(); it_objects != it_groups->seccond.end(); ++it_objects) {
+
+            delete it_objects->seccond;
+        }
+
+        it_groups->clear();
     }
 
     gameobjects.clear();
@@ -15,45 +19,73 @@ GameObjectManager::~GameObjectManager() {
 
 }
 
-void GameObjectManager::CreateObject(std::string object_name, GameObject* object) {
+void GameObjectManager::CreateObject(std::string group, std::string object_name, GameObject* object) {
 
-    std::map<std::string, GameObject*>::iterator it;
-    it = gameobjects.find(object_name);
+    for (std::map<std::string, std::map<std::string, GameObject*>> it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
-    if (it != gameobjects.end()) {
+        if (it_groups->first != group) continue;
 
-        delete it->second;
-        it->second = nullptr;
-        gameobjects.erase(it);
+        for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->seccond.begin(); it_objects != it_groups->seccond.end(); ++it_objects) {
+
+            if (it_objects->first != object_name) continue;
+
+            delete it_objects->seccond;
+            it_groups->seccond.clear(it_objects);
+        }
     }
 
-    gameobjects[object_name] = object;
+    gameobjects[group][object_name] = object;
 }
 
-void GameObjectManager::RemoveObject(std::string object_name) {
+void GameObjectManager::RemoveObject(std::string group, std::string object_name) {
 
-    std::map<std::string, GameObject*>::iterator it;
-    it = gameobjects.find(object_name);
+    for (std::map<std::string, std::map<std::string, GameObject*>> it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
-    if (it != gameobjects.end()) {
+        if (it_groups->first != group) continue;
 
-        delete it->second;
-        it->second = nullptr;
-        gameobjects.erase(it);
+        for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->seccond.begin(); it_objects != it_groups->seccond.end(); ++it_objects) {
+
+            if (it_objects->first != object_name) continue;
+
+            delete it_objects->seccond;
+            it_groups->seccond.clear(it_objects);
+        }
     }
 }
 
-GameObject *GameObjectManager::GetGameObject(std::string object_name) {
+GameObject *GameObjectManager::GetGameObject(std::string group, std::string object_name) {
 
-    std::map<std::string, GameObject*>::iterator it;
-    it = gameobjects.find(object_name);
+    for (std::map<std::string, std::map<std::string, GameObject*>> it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
-    if (it != gameobjects.end()) {
+        if (it_groups->first != group) continue;
 
-        return it->second;
+        for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->seccond.begin(); it_objects != it_groups->seccond.end(); ++it_objects) {
+
+            if (it_objects->first != object_name) continue;
+
+            return it_objects->seccond;
+        }
     }
-
-    SDL_Log("Error: cannot get GameObject with this name: %s (GameObjectManager)", object_name);
 
     return nullptr;
 }
+
+std::vector<GameObject*> &GameObjectManager::GetGroupObjects(std::string group) {
+
+    std::vector<GameObject*> objects;
+
+    for (std::map<std::string, std::map<std::string, GameObject*>> it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
+
+        if (it_groups->first != group) continue;
+
+        for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->seccond.begin(); it_objects != it_groups->seccond.end(); ++it_objects) {
+
+            if (it_objects->first != object_name) continue;
+
+            objects.push_back(it_objects->seccond);
+        }
+    }
+
+    return objects;
+}
+

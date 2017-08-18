@@ -16,10 +16,10 @@ void Ground::Init(Vector2f position, Vector2u size, SDL_Texture *texture) {
     rectangle.SetTexture(texture);
     rectangle.SetSourceTexture(destination_texture);
 
-    rectangle_collision.Init(position, size, CollisionType::STATICBODY);
+    rectangle_collision.Init(position, size, STATICBODY);
 }
 
-void Ground::UpdatePhysics(float dt) {
+void Ground::UpdatePhysics(double dt) {
 
     rectangle_collision.SetPosition(position);
 }
@@ -33,7 +33,7 @@ void Ground::Ground::Update() {
     rectangle.SetSourceTexture(destination_texture);
 }
 
-void Ground::HandleInput(GameObjectInput::Type input) {
+void Ground::HandleInput(GameObjectInput input) {
 
 }
 

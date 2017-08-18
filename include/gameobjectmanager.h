@@ -7,7 +7,8 @@
 #include "include/gameobjects/player.h"
 #include "include/gameobjects/ground.h"
 
-#include "map"
+#include <map>
+#include <vector>
 
 class GameObjectManager
 {
@@ -16,13 +17,16 @@ public:
     GameObjectManager();
     ~GameObjectManager();
 
-    void CreateObject(std::string object_name, GameObject* object);
-    void RemoveObject(std::string object_name);
+    void CreateObject(std::string group, std::string object_name, GameObject* object);
+    void RemoveObject(std::string group, std::string object_name);
 
-    GameObject *GetGameObject(std::string object_name);
+    GameObject *GetGameObject(std::string group, std::string object_name);
+    std::vector<GameObject*> &GetGroupObjects(std::string group);
 private:
 
-    std::map<std::string, GameObject*> gameobjects;
+    std::map<std::string, std::map<std::string, GameObject*>> gameobjects; // [group object]   ->
+                                                                           // [name object]    ->
+                                                                           // [object pointer]
 };
 
 #endif // GAMEOBJECTMANAGER_H

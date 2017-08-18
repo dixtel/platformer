@@ -3,16 +3,29 @@
 Player::Player() {
 
     is_jump = false;
-    is_fall = false;
     jump = false;
     move_right = false;
     move_left = false;
+    velocity = {0, 0};
+    acceleration = 0;
+    speed = 0;
+    jump_force = 0;
+    max_speed = 0;
+    gravity = 0;
+    friction = 0;
 }
 
 void Player::Init(Vector2f position, Vector2u size, SDL_Texture *texture) {
 
     this->position = position;
     this->size = size;
+
+    acceleration = 0.6;
+    speed = 30;
+    jump_force = 10;
+    max_speed = 50;
+    gravity = 5;
+    friction = 0.8;
 
     destination_texture = {0, 0, size.x, size.y};
 
@@ -21,42 +34,31 @@ void Player::Init(Vector2f position, Vector2u size, SDL_Texture *texture) {
     rectangle.SetTexture(texture);
     rectangle.SetSourceTexture(destination_texture);
 
-    rectangle_collision.Init(position, size, CollisionType::RIGHTBODY);
+    rectangle_collision.Init(position, size, RIGHTBODY);
 
     Update();
 }
 
-void Player::UpdatePhysics(float dt) {
+void Player::UpdatePhysics(double dt) {
 
     if (move_right) {
 
-        velocity += {speed * acceleration * dt, speed * acceleration * dt};
+        velocity += Vector2f(speed * acceleration * dt, 0);
     }
 
     if (move_left) {
 
-        velocity -= {speed * acceleration * dt, speed * acceleration * dt};
+        velocity -= Vector2f(speed * acceleration * dt, 0);
     }
 
-    if (jump && (is_jump == false) && (is_fall == false) && (is_on_ground == true)) {
+    if (jump && (is_jump == false)) {
 
         is_jump = true;
-        is_on_ground = false;
 
-        velocity.y += jump_force;
+        velocity.y -= jump_force;
     }
 
-    velocity.y -= gravity * dt;
-
-    if (is_jump) {
-
-        // TODO animation handle
-    }
-
-    if (is_fall) {
-
-        // TODO animation handle
-    }
+    velocity.y += gravity * dt;
 
     if (velocity.x > 0) {
 
@@ -100,33 +102,43 @@ void Player::Update() {
     rectangle.SetSourceTexture(destination_texture);
 }
 
-void Player::HandleInput(GameObjectInput::Type input) {
+void Player::HandleInput(GameObjectInput input) {
 
-    if (input == GameObjectInput::NONE) {
-
-        move_right = false;
-        move_left = false;
-        jump = false;
-
-        return;
-    }
-
-    if (input == GameObjectInput::RIGHT) {
+    if (input == RIGHT_ON) {
 
         move_right = true;
     }
 
-    if (input == GameObjectInput:: LEFT) {
+    if (input == RIGHT_OFF) {
+
+        move_right = false;
+    }
+
+    if (input == LEFT_ON) {
 
         move_left = true;
     }
 
-    if (input == GameObjectInput::UP) {
+    if (input == LEFT_OFF) {
+
+        move_left = false;
+    }
+
+    if (input == UP_ON) {
 
         jump = true;
     }
 
-    if (input == GameObjectInput::CLICK_ON_OBJECT) {
+    if (input == UP_OFF) {
+
+        jump = false;
+    }
+
+    if (input == CLICK_ON_OBJECT_ON) {
+
+    }
+
+    if (input == CLICK_ON_OBJECT_OFF) {
 
     }
 }
@@ -134,10 +146,6 @@ void Player::HandleInput(GameObjectInput::Type input) {
 void Player::OnGround() {
 
     is_jump = true;
-    is_fall = false;
-    is_on_ground = true;
-
-    velocity.y = 0;
 }
 
 Rectangle *Player::GetRectangle() {

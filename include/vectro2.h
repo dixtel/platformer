@@ -14,29 +14,43 @@ struct Vector2f {
         this->y = y;
     }
 
-    Vector2f operator+=(Vector2f vec) {
+    bool operator!=(const Vector2f &vec) {
 
-       return {x - vec.x, y - vec.y};
+        if ((x == vec.x) && (y == vec.y)) return true;
+        return false;
     }
 
-    Vector2f operator-=(Vector2f vec) {
 
-       return {x - vec.x, y - vec.y};
+    Vector2f &operator+=(const Vector2f &vec) {
+
+        x += vec.x;
+        y += vec.y;
+        return *this;
     }
 
-    Vector2f operator+(Vector2f vec) {
+    Vector2f &operator-=(const Vector2f &vec) {
 
-        return Vector2f {x + vec.x, y + vec.y};
+        x -= vec.x;
+        y -= vec.y;
+        return *this;
     }
 
-    Vector2f operator-(Vector2f vec) {
+    Vector2f operator+(const Vector2f &vec2) {
 
-        return Vector2f {x - vec.x, y - vec.y};
+        Vector2f vec(x + vec2.x, y + vec2.y);
+        return vec;
     }
 
-    Vector2f operator*(float num) {
+    Vector2f operator-(const Vector2f &vec2) {
 
-        return Vector2f {x * num, y * num};
+        Vector2f vec(x - vec2.x, y - vec2.y);
+        return vec;
+    }
+
+    Vector2f operator*(const Vector2f &vec2) {
+
+        Vector2f vec(x * vec2.x, y * vec2.y);
+        return vec;
     }
 };
 
@@ -53,29 +67,42 @@ struct Vector2i {
         this->y = y;
     }
 
-    Vector2i operator+=(Vector2i vec) {
+    bool operator!=(const Vector2i &vec) {
 
-       return {x - vec.x, y - vec.y};
+        if ((x == vec.x) && (y == vec.y)) return true;
+        return false;
     }
 
-    Vector2i operator-=(Vector2i vec) {
+    Vector2i &operator+=(const Vector2i &vec) {
 
-       return {x - vec.x, y - vec.y};
+        x += vec.x;
+        y += vec.y;
+        return *this;
     }
 
-    Vector2i operator+(Vector2i vec) {
+    Vector2i &operator-=(const Vector2i &vec) {
 
-        return Vector2i {x + vec.x, y + vec.y};
+        x -= vec.x;
+        y -= vec.y;
+        return *this;
     }
 
-    Vector2i operator-(Vector2i vec) {
+    Vector2i operator+(const Vector2i &vec2) {
 
-        return Vector2i {x - vec.x, y - vec.y};
+        Vector2i vec(x + vec2.x, y + vec2.y);
+        return vec;
     }
 
-    Vector2i operator*(float num) {
+    Vector2i operator-(const Vector2i &vec2) {
 
-        return Vector2i {x * num, y * num};
+        Vector2i vec(x - vec2.x, y - vec2.y);
+        return vec;
+    }
+
+    Vector2i operator*(const Vector2i &vec2) {
+
+        Vector2i vec(x * vec2.x, y * vec2.y);
+        return vec;
     }
 };
 
@@ -92,31 +119,43 @@ struct Vector2u {
         this->y = y;
     }
 
-    Vector2u operator+=(Vector2u vec) {
+    bool operator!=(const Vector2u &vec) {
 
-       return {x - vec.x, y - vec.y};
+        if ((x == vec.x) && (y == vec.y)) return true;
+        return false;
     }
 
-    Vector2u operator-=(Vector2u vec) {
+    Vector2u &operator+=(const Vector2u &vec) {
 
-       return {x - vec.x, y - vec.y};
+        x += vec.x;
+        y += vec.y;
+        return *this;
     }
 
-    Vector2u operator+(Vector2u vec) {
+    Vector2u &operator-=(const Vector2u &vec) {
 
-        return Vector2u {x + vec.x, y + vec.y};
+        x -= vec.x;
+        y -= vec.y;
+        return *this;
     }
 
-    Vector2u operator-(Vector2u vec) {
+    Vector2u operator+(const Vector2u &vec2) {
 
-        return Vector2u {x - vec.x, y - vec.y};
+        Vector2u vec(x + vec2.x, y + vec2.y);
+        return vec;
     }
 
-    Vector2u operator*(float num) {
+    Vector2u operator-(const Vector2u &vec2) {
 
-        return Vector2u {x * num, y * num};
+        Vector2u vec(x - vec2.x, y - vec2.y);
+        return vec;
     }
 
+    Vector2u operator*(const Vector2u &vec2) {
+
+        Vector2u vec(x * vec2.x, y * vec2.y);
+        return vec;
+    }
 };
 
 #endif // VECTRO2_H

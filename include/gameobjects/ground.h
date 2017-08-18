@@ -17,9 +17,9 @@ public:
 
     void Init(Vector2f position, Vector2u size, SDL_Texture *texture);
 
-    void UpdatePhysics(float dt);
+    void UpdatePhysics(double dt);
     void Update();
-    void HandleInput(GameObjectInput::Type input);
+    void HandleInput(GameObjectInput input);
 
     Rectangle *GetRectangle();
     RectangleCollision *GetRectangleCollision();

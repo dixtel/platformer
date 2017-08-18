@@ -9,6 +9,7 @@
 #include "include/render.h"
 #include "include/gamestatemachine.h"
 #include "include/states/maingamestate.h"
+#include "include/handleinput.h"
 
 class GameEngine
 {

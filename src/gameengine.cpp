@@ -47,13 +47,15 @@ void GameEngine::CleanUp() {
 
 void GameEngine::Start() {
 
+    DeltaTime delta_time;
+
     running = true;
 
     while (running) {
 
-        // TODO delta time
+        double dt = delta_time.GetDeltaTime();
 
-        float dt;
+        SDL_Log("Delta time: %f", dt);
 
         game_state_machine.HandleEvents();
         game_state_machine.Update(dt);

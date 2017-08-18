@@ -17,9 +17,9 @@ public:
 
     void Init(Vector2f position, Vector2u size, SDL_Texture *texture);
 
-    void UpdatePhysics(float dt);
+    void UpdatePhysics(double dt);
     void Update();
-    void HandleInput(GameObjectInput::Type input);
+    void HandleInput(GameObjectInput input);
 
     void OnGround();
 
@@ -41,13 +41,10 @@ private:
     float speed;
     float jump_force;
     float max_speed;
-    float max_jump;
     float gravity;
     float friction;
 
     bool is_jump;
-    bool is_fall;
-    bool is_on_ground;
 
     bool jump;
     bool move_right;

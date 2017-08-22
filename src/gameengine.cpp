@@ -55,7 +55,7 @@ void GameEngine::Start() {
 
         double dt = delta_time.GetDeltaTime();
 
-        SDL_Log("Delta time: %f", dt);
+        //SDL_Log("Delta time: %f", dt);
 
         game_state_machine.HandleEvents();
         game_state_machine.Update(dt);

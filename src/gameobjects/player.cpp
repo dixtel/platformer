@@ -6,6 +6,8 @@ Player::Player() {
     jump = false;
     move_right = false;
     move_left = false;
+    move_down = false;
+    move_up = false;
     velocity = {0, 0};
     acceleration = 0;
     speed = 0;
@@ -23,9 +25,9 @@ void Player::Init(Vector2f position, Vector2u size, SDL_Texture *texture) {
     acceleration = 0.6;
     speed = 30;
     jump_force = 10;
-    max_speed = 50;
+    max_speed = 20;
     gravity = 5;
-    friction = 0.8;
+    friction = 7;
 
     destination_texture = {0, 0, size.x, size.y};
 
@@ -43,12 +45,23 @@ void Player::UpdatePhysics(double dt) {
 
     if (move_right) {
 
-        velocity += Vector2f(speed * acceleration * dt, 0);
+        velocity.x += speed * acceleration * dt;
     }
 
     if (move_left) {
 
-        velocity -= Vector2f(speed * acceleration * dt, 0);
+        velocity.x -= speed * acceleration * dt;
+    }
+
+    if (move_down) {
+
+        velocity.y += speed * acceleration * dt;
+    }
+
+    if (move_up) {
+
+        velocity.y -= speed * acceleration * dt;
+        //jump = true;
     }
 
     if (jump && (is_jump == false)) {
@@ -58,7 +71,7 @@ void Player::UpdatePhysics(double dt) {
         velocity.y -= jump_force;
     }
 
-    velocity.y += gravity * dt;
+    //velocity.y += gravity * dt;
 
     if (velocity.x > 0) {
 
@@ -87,6 +100,44 @@ void Player::UpdatePhysics(double dt) {
 
             velocity.x = -max_speed;
         }
+    }
+
+    if (velocity.y > 0) {
+
+        velocity.y -= friction * dt;
+
+        if (velocity.y < 0) {
+
+            velocity.y = 0;
+        }
+
+        if (velocity.y > max_speed) {
+
+            velocity.y = max_speed;
+        }
+    }
+    else if (velocity.y < 0) {
+
+        velocity.y += friction * dt;
+
+        if (velocity.y > 0) {
+
+            velocity.y = 0;
+        }
+
+        if (velocity.y < -max_speed) {
+
+            velocity.y = -max_speed;
+        }
+    }
+
+    if (rectangle_collision.GetCollisionXAxsis()) {
+
+        velocity.x = 0;
+    }
+    else if (rectangle_collision.GetCollisionYAxsis()) {
+
+        velocity.y = 0;
     }
 
     position += velocity;
@@ -126,12 +177,22 @@ void Player::HandleInput(GameObjectInput input) {
 
     if (input == UP_ON) {
 
-        jump = true;
+        move_up = true;
     }
 
     if (input == UP_OFF) {
 
-        jump = false;
+        move_up = false;
+    }
+
+    if (input == DOWN_ON) {
+
+        move_down = true;
+    }
+
+    if (input == DOWN_OFF) {
+
+        move_down = false;
     }
 
     if (input == CLICK_ON_OBJECT_ON) {
@@ -145,6 +206,7 @@ void Player::HandleInput(GameObjectInput input) {
 
 void Player::OnGround() {
 
+    jump = false;
     is_jump = true;
 }
 

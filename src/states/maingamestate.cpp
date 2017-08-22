@@ -11,10 +11,14 @@ MainGameState::MainGameState(const unsigned width_state, const unsigned height_s
     handle_input.Init(width_state, height_state);
 
     game_exit = false;
-    game_object_manager.CreateObject("player", new Player());
-    game_object_manager.GetGameObject("player")->Init({250, 250}, {50, 50}, image_loader.LoadImage("res/textures/player.png"));
-    game_object_manager.CreateObject("ground", new Ground());
-    game_object_manager.GetGameObject("ground")->Init({250, 400}, {50, 50}, image_loader.LoadImage("res/textures/ground.png"));
+    game_object_manager.CreateObject("players", "player", new Player());
+    game_object_manager.GetGameObject("players", "player")->Init({250, 250}, {50, 50}, image_loader.LoadImage("res/textures/player.png"));
+
+    game_object_manager.CreateObject("grounds", "ground_1", new Ground());
+    game_object_manager.GetGameObject("grounds", "ground_1")->Init({150, 400}, {200, 50}, NULL);
+
+    game_object_manager.CreateObject("grounds", "ground_2", new Ground());
+    game_object_manager.GetGameObject("grounds", "ground_2")->Init({360, 400}, {200, 50}, image_loader.LoadImage("res/textures/ground.png"));
 
 }
 
@@ -24,19 +28,23 @@ MainGameState::~MainGameState() {
 
 void MainGameState::UpdateState(float dt) {
 
-    game_object_manager.GetGameObject("player")->UpdatePhysics(dt);
+    game_object_manager.GetGameObject("players", "player")->UpdatePhysics(dt);
 
-    if (collision.IsCollision(game_object_manager.GetGameObject("player")->GetRectangleCollision(), ))
+    if (collision.IsCollision(game_object_manager.GetGameObject("players", "player")->GetRectangleCollision(), game_object_manager.GetGroupObjectsAsRectangleCollision("grounds"))) {
 
-    game_object_manager.GetGameObject("player")->Update();
+        collision.SetCollision(game_object_manager.GetGameObject("players", "player")->GetRectangleCollision(), game_object_manager.GetGroupObjectsAsRectangleCollision("grounds"));
+    }
+
+    game_object_manager.GetGameObject("players", "player")->Update();
 }
 
 void MainGameState::RenderState() {
 
     // TODO add viewpoint
     render->Clear();
-    render->Draw(game_object_manager.GetGameObject("player")->GetRectangle());
-    render->Draw(game_object_manager.GetGameObject("ground")->GetRectangle());
+    render->Draw(game_object_manager.GetGameObject("players", "player")->GetRectangle());
+    render->Draw(game_object_manager.GetGameObject("grounds", "ground_1")->GetRectangle());
+    render->Draw(game_object_manager.GetGameObject("grounds", "ground_2")->GetRectangle());
     render->Display();
 }
 
@@ -55,32 +63,42 @@ void MainGameState::HandleEvents() {
 
     if (handle_input.IsKeyDown(SDL_SCANCODE_RIGHT)) {
 
-        game_object_manager.GetGameObject("player")->HandleInput(GameObjectInput::RIGHT_OFF);
+        game_object_manager.GetGameObject("players", "player")->HandleInput(GameObjectInput::RIGHT_OFF);
     }
 
     if (handle_input.IsKeyUp(SDL_SCANCODE_RIGHT)) {
 
-        game_object_manager.GetGameObject("player")->HandleInput(GameObjectInput::RIGHT_ON);
+        game_object_manager.GetGameObject("players", "player")->HandleInput(GameObjectInput::RIGHT_ON);
     }
 
     if (handle_input.IsKeyDown(SDL_SCANCODE_LEFT)) {
 
-        game_object_manager.GetGameObject("player")->HandleInput(GameObjectInput::LEFT_OFF);
+        game_object_manager.GetGameObject("players", "player")->HandleInput(GameObjectInput::LEFT_OFF);
     }
 
     if (handle_input.IsKeyUp(SDL_SCANCODE_LEFT)) {
 
-        game_object_manager.GetGameObject("player")->HandleInput(GameObjectInput::LEFT_ON);
+        game_object_manager.GetGameObject("players", "player")->HandleInput(GameObjectInput::LEFT_ON);
     }
 
     if (handle_input.IsKeyDown(SDL_SCANCODE_UP)) {
 
-        game_object_manager.GetGameObject("player")->HandleInput(GameObjectInput::UP_OFF);
+        game_object_manager.GetGameObject("players", "player")->HandleInput(GameObjectInput::UP_OFF);
     }
 
     if (handle_input.IsKeyUp(SDL_SCANCODE_UP)) {
 
-        game_object_manager.GetGameObject("player")->HandleInput(GameObjectInput::UP_ON);
+        game_object_manager.GetGameObject("players", "player")->HandleInput(GameObjectInput::UP_ON);
+    }
+
+    if (handle_input.IsKeyDown(SDL_SCANCODE_DOWN)) {
+
+        game_object_manager.GetGameObject("players", "player")->HandleInput(GameObjectInput::DOWN_OFF);
+    }
+
+    if (handle_input.IsKeyUp(SDL_SCANCODE_DOWN)) {
+
+        game_object_manager.GetGameObject("players", "player")->HandleInput(GameObjectInput::DOWN_ON);
     }
 
     // TODO Test finger on android

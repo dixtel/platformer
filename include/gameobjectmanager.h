@@ -9,6 +9,7 @@
 
 #include <map>
 #include <vector>
+#include <utility>
 
 class GameObjectManager
 {
@@ -22,6 +23,7 @@ public:
 
     GameObject *GetGameObject(std::string group, std::string object_name);
     std::vector<GameObject*> &GetGroupObjects(std::string group);
+    std::vector<RectangleCollision*> &GetGroupObjectsAsRectangleCollision(std::string group);
 private:
 
     std::map<std::string, std::map<std::string, GameObject*>> gameobjects; // [group object]   ->

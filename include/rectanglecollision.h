@@ -2,7 +2,6 @@
 #define RECTANGLECOLLISION_H
 
 #include "include/vectro2.h"
-#include "SDL2/SDL_rect.h"
 
 enum CollisionType {
     STATICBODY,         // e.g ground, walls
@@ -22,18 +21,27 @@ public:
     void SetPosition(Vector2f position);
     void SetSize(Vector2u size);
 
+    bool GetCollisionXAxsis();
+    bool GetCollisionYAxsis();
+
     Vector2f GetPosition();
 private:
 
     void SetCollisionPosition(Vector2f position);
+    void SetCurrentPosition(Vector2f position);
 
-    SDL_Rect &GetCurrentRect();
+    void EnableCollisionXAxsis();
+    void EnableCollisionYAxsis();
+
     CollisionType GetCollisionType();
-    Vector2f GetCurrentPoint(char point);
-    Vector2f GetOldPoint(char point);
+    Vector2u GetSize();
+    Vector2f &GetCurrentPoint(char point);
+    Vector2f &GetOldPoint(char point);
 protected:
 
-    SDL_Rect current_rect;
+    bool is_collision_x_axsis;
+    bool is_collision_y_axsis;
+
     CollisionType collision_type;
     Vector2f current_position;
     Vector2f old_position;

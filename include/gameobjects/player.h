@@ -49,6 +49,8 @@ private:
     bool jump;
     bool move_right;
     bool move_left;
+    bool move_down;
+    bool move_up;
 };
 
 #endif // PLAYER_H

@@ -16,10 +16,9 @@ struct Vector2f {
 
     bool operator!=(const Vector2f &vec) {
 
-        if ((x == vec.x) && (y == vec.y)) return true;
-        return false;
+        if ((x == vec.x) && (y == vec.y)) return false;
+        return true;
     }
-
 
     Vector2f &operator+=(const Vector2f &vec) {
 

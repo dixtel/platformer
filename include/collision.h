@@ -7,8 +7,13 @@
 #include "include/math/intersect.h"
 #include "include/math/angle.h"
 #include "include/math/distance.h"
+#include "include/math/vector.h"
+#include "include/math/vector2.h"
 
 #include <vector>
+
+const Vector AXIS_X = {1, 0};
+const Vector AXIS_Y = {0, 1};
 
 class Collision
 {
@@ -21,9 +26,11 @@ public:
     void SetCollision(RectangleCollision *main_object, std::vector<RectangleCollision*> &coliders);
 private:
 
-    void FixPosition(Vector2f intersect_position, Vector2f fixed_intersect_position, RectangleCollision *object, Vector2f object_old_position, Vector2f object_current_position, Vector2f colider_position_start, Vector2f colider_position_end);
-    void MoveRectangleCollision(RectangleCollision *object, Angle angle, float distance);
-    Angle GetFixedAngle(Vector2f start, Vector2f end, std::string flip_type); // flip_type = horizontal, vertical
-};
+    std::vector<Vector> ConvertToVectors(RectangleCollision *object, Vector2f center);
 
+    float GetProjection(Vector2f point1, Vector2f point2, Vector axis);
+    float GetMinnimumProjection(std::vector<Vector> vectors, Vector axis);
+    float GetMaxsimiumProjection(std::vector<Vector> vectors, Vector axis);
+};
+\
 #endif // COLLISION_H

@@ -1,11 +1,9 @@
 //#include "iostream"
-//#include "include/math/angle.h"
+//#include "include/math/intersect.h"
 
 //int main(int argc, char *argv[])
 //{
-//    Angle angle = GetAngle(Vector2f(100, 100), Vector2f(110, ));
-
-//    std::cout << angle.degree << std::endl;
+//    Vector2f inter = GetIntersect(Vector2f(10, 10), Vector2f(20, 10), Vector2f(20, 10), Vector2f(20, 20));
 
 //    return 0;
 //}

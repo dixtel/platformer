@@ -6,17 +6,17 @@ Collision::Collision() {
 
 bool Collision::IsCollision(RectangleCollision *main_object, std::vector<RectangleCollision*> &coliders) {
 
-    Vector2f points[4] = {main_object->GetCurrentPoint('A'), main_object->GetCurrentPoint('B'),
-                          main_object->GetCurrentPoint('C'), main_object->GetCurrentPoint('D')};
+    Vector2f points[4] = {main_object->GetPointPosition('A'), main_object->GetPointPosition('B'),
+                          main_object->GetPointPosition('C'), main_object->GetPointPosition('D')};
 
     for (int i = 0; i < coliders.size(); ++i) {
 
-        Vector2f colider_corners[2] = {coliders[i]->GetCurrentPoint('A'), coliders[i]->GetCurrentPoint('C')};
+        Vector2f colider_corners[2] = {coliders[i]->GetPointPosition('A'), coliders[i]->GetPointPosition('C')};
 
         for (int j = 0; j < 4; ++j) {
 
-            if ((points[j].x > colider_corners[0].x) && (points[j].x < colider_corners[1].x)
-                && (points[j].y > colider_corners[0].y) && (points[j].y < colider_corners[1].y))
+            if ((points[j].x >= colider_corners[0].x) && (points[j].x <= colider_corners[1].x)
+                && (points[j].y >= colider_corners[0].y) && (points[j].y <= colider_corners[1].y))
                 return true;
         }
     }
@@ -26,274 +26,183 @@ bool Collision::IsCollision(RectangleCollision *main_object, std::vector<Rectang
 
 void Collision::SetCollision(RectangleCollision *main_object, std::vector<RectangleCollision*> &coliders) {
 
-    Vector2f *current_points[4] = {&main_object->GetCurrentPoint('A'), &main_object->GetCurrentPoint('B'),
-                                  &main_object->GetCurrentPoint('C'), &main_object->GetCurrentPoint('D')};
-    Vector2f *old_points[4] = {&main_object->GetOldPoint('A'), &main_object->GetOldPoint('B'),
-                              &main_object->GetOldPoint('C'), &main_object->GetOldPoint('D')};
+    std::vector<RectangleCollision*> correct_coliders;
 
-
-    for (int i = 0; i < coliders.size(); ++i) {
-
-        Vector2f colider_current_points[4] = {coliders[i]->GetCurrentPoint('A'), coliders[i]->GetCurrentPoint('B'),
-                                              coliders[i]->GetCurrentPoint('C'), coliders[i]->GetCurrentPoint('D')};
-        Vector2f colider_old_points[4] = {coliders[i]->GetOldPoint('A'), coliders[i]->GetOldPoint('B'),
-                                          coliders[i]->GetOldPoint('C'), coliders[i]->GetOldPoint('D')};
-        // main object point A
-        Vector2f intersect_position;
-        if ((intersect_position = GetIntersect(old_points[0], current_points[0], colider_current_points[1], colider_current_points[2])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision A");
-
-            main_object->EnableCollisionXAxsis();
-            FixPosition(intersect_position, intersect_position, main_object, old_points[0], current_points[0], colider_current_points[1], colider_current_points[2]);
-
-            return;
-        }
-
-        else if ((intersect_position = GetIntersect(old_points[0], current_points[0], colider_current_points[2], colider_current_points[3])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision A");
-
-            main_object->EnableCollisionYAxsis();
-            FixPosition(intersect_position, intersect_position, main_object, old_points[0], current_points[0], colider_current_points[2], colider_current_points[3]);
-
-            return;
-        }
-
-        // main object point B
-        if ((intersect_position = GetIntersect(old_points[1], current_points[1], colider_current_points[0], colider_current_points[3])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision B");
-
-            Vector2f fixed_intersect_position = intersect_position + Vector2f {-float(main_object->GetSize().x), 0};
-
-            main_object->EnableCollisionXAxsis();
-            FixPosition(intersect_position, fixed_intersect_position, main_object, old_points[1], current_points[1], colider_current_points[0], colider_current_points[3]);
-
-            return;
-        }
-
-        else if ((intersect_position = GetIntersect(old_points[1], current_points[1], colider_current_points[3], colider_current_points[2])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision B");
-
-            Vector2f fixed_intersect_position = intersect_position + Vector2f {-float(main_object->GetSize().x), 0};
-
-            main_object->EnableCollisionYAxsis();
-            FixPosition(intersect_position, fixed_intersect_position, main_object, old_points[1], current_points[1], colider_current_points[3], colider_current_points[2]);
-
-            return;
-        }
-
-        // main object point C
-        if ((intersect_position = GetIntersect(old_points[2], current_points[2], colider_current_points[0], colider_current_points[1])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision C");
-
-            Vector2f fixed_intersect_position = intersect_position + Vector2f {-float(main_object->GetSize().x), -float(main_object->GetSize().y)};
-
-            main_object->EnableCollisionYAxsis();
-            FixPosition(intersect_position, fixed_intersect_position, main_object, old_points[2], current_points[2], colider_current_points[0], colider_current_points[1]);
-
-            return;
-        }
-
-        else if ((intersect_position = GetIntersect(old_points[2], current_points[2], colider_current_points[0], colider_current_points[3])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision C");
-
-            Vector2f fixed_intersect_position = intersect_position + Vector2f {-float(main_object->GetSize().x), -float(main_object->GetSize().y)};
-
-            main_object->EnableCollisionXAxsis();
-            FixPosition(intersect_position, fixed_intersect_position, main_object, old_points[2], current_points[2], colider_current_points[0], colider_current_points[3]);
-
-            return;
-        }
-
-        // main object point D
-        if ((intersect_position = GetIntersect(old_points[3], current_points[3], colider_current_points[0], colider_current_points[1])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision D");
-
-            Vector2f fixed_intersect_position = intersect_position + Vector2f {0, -float(main_object->GetSize().y)};
-
-            main_object->EnableCollisionYAxsis();
-            FixPosition(intersect_position, fixed_intersect_position, main_object, old_points[3], current_points[3], colider_current_points[0], colider_current_points[1]);
-
-            return;
-        }
-
-        else if ((intersect_position = GetIntersect(old_points[3], current_points[3], colider_current_points[1], colider_current_points[2])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision D");
-
-            Vector2f fixed_intersect_position = intersect_position + Vector2f {0, -float(main_object->GetSize().y)};
-
-            main_object->EnableCollisionXAxsis();
-            FixPosition(intersect_position, fixed_intersect_position, main_object, old_points[3], current_points[3], colider_current_points[1], colider_current_points[2]);
-
-            return;
-        }
-    }
+    Vector2f points[4] = {main_object->GetPointPosition('A'), main_object->GetPointPosition('B'),
+                          main_object->GetPointPosition('C'), main_object->GetPointPosition('D')};
 
     for (int i = 0; i < coliders.size(); ++i) {
 
-        Vector2f colider_current_points[4] = {coliders[i]->GetCurrentPoint('A'), coliders[i]->GetCurrentPoint('B'),
-                                              coliders[i]->GetCurrentPoint('C'), coliders[i]->GetCurrentPoint('D')};
-        Vector2f colider_old_points[4] = {coliders[i]->GetOldPoint('A'), coliders[i]->GetOldPoint('B'),
-                                          coliders[i]->GetOldPoint('C'), coliders[i]->GetOldPoint('D')};
-        Vector2f intersect_position;
+        Vector2f colider_corners[2] = {coliders[i]->GetPointPosition('A'), coliders[i]->GetPointPosition('C')};
 
+        for (int j = 0; j < 4; ++j) {
 
-        // main object point D
-        if ((intersect_position = GetIntersect(old_points[3], current_points[3], colider_current_points[0], colider_current_points[1])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision D");
-
-            Vector2f fixed_intersect_position = intersect_position + Vector2f {0, -float(main_object->GetSize().y)};
-
-            main_object->EnableCollisionYAxsis();
-            FixPosition(intersect_position, fixed_intersect_position, main_object, old_points[3], current_points[3], colider_current_points[0], colider_current_points[1]);
-
-            return;
-        }
-
-        else if ((intersect_position = GetIntersect(old_points[3], current_points[3], colider_current_points[1], colider_current_points[2])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision D");
-
-            Vector2f fixed_intersect_position = intersect_position + Vector2f {0, -float(main_object->GetSize().y)};
-
-            main_object->EnableCollisionXAxsis();
-            FixPosition(intersect_position, fixed_intersect_position, main_object, old_points[3], current_points[3], colider_current_points[1], colider_current_points[2]);
-
-            return;
-        }
-        // main object point C
-        if ((intersect_position = GetIntersect(old_points[2], current_points[2], colider_current_points[0], colider_current_points[1])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision C");
-
-            Vector2f fixed_intersect_position = intersect_position + Vector2f {-float(main_object->GetSize().x), -float(main_object->GetSize().y)};
-
-            main_object->EnableCollisionYAxsis();
-            FixPosition(intersect_position, fixed_intersect_position, main_object, old_points[2], current_points[2], colider_current_points[0], colider_current_points[1]);
-
-            return;
-        }
-
-        else if ((intersect_position = GetIntersect(old_points[2], current_points[2], colider_current_points[0], colider_current_points[3])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision C");
-
-            Vector2f fixed_intersect_position = intersect_position + Vector2f {-float(main_object->GetSize().x), -float(main_object->GetSize().y)};
-
-            main_object->EnableCollisionXAxsis();
-            FixPosition(intersect_position, fixed_intersect_position, main_object, old_points[2], current_points[2], colider_current_points[0], colider_current_points[3]);
-
-            return;
-        }
-
-
-        // main object point B
-        if ((intersect_position = GetIntersect(old_points[1], current_points[1], colider_current_points[0], colider_current_points[3])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision B");
-
-            Vector2f fixed_intersect_position = intersect_position + Vector2f {-float(main_object->GetSize().x), 0};
-
-            main_object->EnableCollisionXAxsis();
-            FixPosition(intersect_position, fixed_intersect_position, main_object, old_points[1], current_points[1], colider_current_points[0], colider_current_points[3]);
-
-            return;
-        }
-
-        else if ((intersect_position = GetIntersect(old_points[1], current_points[1], colider_current_points[3], colider_current_points[2])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision B");
-
-            Vector2f fixed_intersect_position = intersect_position + Vector2f {-float(main_object->GetSize().x), 0};
-
-            main_object->EnableCollisionYAxsis();
-            FixPosition(intersect_position, fixed_intersect_position, main_object, old_points[1], current_points[1], colider_current_points[3], colider_current_points[2]);
-
-            return;
-        }
-        // main object point A
-        if ((intersect_position = GetIntersect(old_points[0], current_points[0], colider_current_points[1], colider_current_points[2])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision A");
-
-            main_object->EnableCollisionXAxsis();
-            FixPosition(intersect_position, intersect_position, main_object, old_points[0], current_points[0], colider_current_points[1], colider_current_points[2]);
-
-            return;
-        }
-
-        else if ((intersect_position = GetIntersect(old_points[0], current_points[0], colider_current_points[2], colider_current_points[3])) != Vector2f {0, 0}) {
-
-            SDL_Log("collision A");
-
-            main_object->EnableCollisionYAxsis();
-            FixPosition(intersect_position, intersect_position, main_object, old_points[0], current_points[0], colider_current_points[2], colider_current_points[3]);
-
-            return;
+            if ((points[j].x > colider_corners[0].x) && (points[j].x < colider_corners[1].x)
+                && (points[j].y > colider_corners[0].y) && (points[j].y < colider_corners[1].y))
+                correct_coliders.push_back(coliders[i]);
         }
     }
 
-    delete [] current_points;
-    delete [] old_points;
-}
+    for (int i = 0; i < correct_coliders.size(); ++i) {
 
-void Collision::FixPosition(Vector2f intersect_position, Vector2f fixed_intersect_position, RectangleCollision *object, Vector2f object_old_position, Vector2f object_current_position, Vector2f colider_position_start, Vector2f colider_position_end) {
+        Vector2f colider_center = correct_coliders[i]->GetCenterPosition();
+        Vector2f main_object_center = main_object->GetCenterPosition();
 
-    float missing_distance = GetDistance(intersect_position, object_current_position);
-    float fixed_distance = missing_distance * 0.6;
-    std::string flip_type;
+        std::vector<Vector> colider_vectors = ConvertToVectors(correct_coliders[i], colider_center);
+        std::vector<Vector> main_object_vectors = ConvertToVectors(main_object, main_object_center);
 
-    Angle colider_angle = GetAngle(colider_position_start, colider_position_end);
-    if ((colider_angle.degree == 90) || (colider_angle.degree == 270))
-        flip_type = "vertical";
-    else
-        flip_type = "horizontal";
+        float objects_projection_axisx = GetProjection(colider_center, main_object_center, AXIS_X);
+        float objects_projection_axisy = GetProjection(colider_center, main_object_center, AXIS_Y);
 
-    Angle current_angle = GetAngle(object_old_position, object_current_position);
-    Angle fixed_angle = GetFixedAngle(object_old_position, object_current_position, flip_type);
+        float main_object_min_axisx = GetMinnimumProjection(main_object_vectors, AXIS_X);
+        float main_object_max_axisx = GetMaxsimiumProjection(main_object_vectors, AXIS_X);
+        float main_object_min_axisy = GetMinnimumProjection(main_object_vectors, AXIS_Y);
+        float main_object_max_axisy = GetMaxsimiumProjection(main_object_vectors, AXIS_Y);
 
-   // object->SetCollisionPosition(fixed_intersect_position);
-    object->SetCurrentPosition(fixed_intersect_position);
+        float colider_min_axisx = GetMinnimumProjection(colider_vectors, AXIS_X);
+        float colider_max_axisx = GetMaxsimiumProjection(colider_vectors, AXIS_X);
+        float colider_min_axisy = GetMinnimumProjection(colider_vectors, AXIS_Y);
+        float colider_max_axisy = GetMaxsimiumProjection(colider_vectors, AXIS_Y);
+
+        // left axis side are negative, right positive
+        bool main_object_left_axisx   = false;
+        bool main_object_right_axisx  = false;
+        bool main_object_left_axisy   = false;
+        bool main_object_right_axisy  = false;
+
+        // set main_objct side axis
+        if (objects_projection_axisx < 0)
+            main_object_left_axisx = true;
+        else
+            main_object_right_axisx = true;
+
+        if (objects_projection_axisy < 0)
+            main_object_left_axisy = true;
+        else
+            main_object_right_axisy = true;
+
+        float gap_axisx = 0;
+        float gap_axisy = 0;
+
+        if (main_object_left_axisx)
+            gap_axisx = fabs(objects_projection_axisx) - main_object_max_axisx + colider_min_axisx;
+        else
+            gap_axisx = objects_projection_axisx - colider_max_axisx + main_object_min_axisx;
+
+        if (main_object_left_axisy)
+            gap_axisy = fabs(objects_projection_axisy) - main_object_max_axisy + colider_min_axisy;
+        else
+            gap_axisy = objects_projection_axisy - colider_max_axisy + main_object_min_axisy;
 
 
-    if (!((current_angle.degree == 0) || (current_angle.degree == 90) || (current_angle.degree == 180) || (current_angle.degree == 270)))
-        MoveRectangleCollision(object, fixed_angle, fixed_distance);
-}
+        // collision occurs when all gap is negative
+        if (gap_axisx < 0 && gap_axisy < 0) {
 
-void Collision::MoveRectangleCollision(RectangleCollision *object, Angle angle, float distance) {
+            float move_x = 0;
+            float move_y = 0;
 
-    float x = cos(angle.degree * PI / 180);
-    float y = -sin(angle.degree * PI / 180);
+            // calculate move_x
+            if (main_object_left_axisx && gap_axisx >= gap_axisy) {
 
-    Vector2f final_distance = {x * distance, y * distance};
+                move_x = gap_axisx;
+            }
+            else if (main_object_right_axisx && gap_axisx >= gap_axisy) {
 
-    //object->SetCollisionPosition(object->GetPosition() + final_distance);
-    object->SetCurrentPosition(object->GetPosition() + final_distance);
-}
+                move_x = -gap_axisx;
+            }
 
-Angle Collision::GetFixedAngle(Vector2f start, Vector2f end, std::string flip_type) {
+            // calculate move_y
+            if (main_object_left_axisy && gap_axisy >= gap_axisx) {
 
-    Angle angle(GetAngle(start, end));
+                move_y = gap_axisy;
+            }
+            else if (main_object_right_axisy && gap_axisy >= gap_axisx) {
 
-    if (flip_type == "horizontal") {
+                move_y = -gap_axisy;
+            }
 
-        if ((angle.degree > 270) || (angle.degree < 90)) angle.degree = 0;
-        else if ((angle.degree > 90) && (angle.degree < 270)) angle.degree = 180;
+            // response to collision
+            if (main_object->GetCollisionType() == CollisionType::RIGHTBODY && correct_coliders[i]->GetCollisionType() == CollisionType::RIGHTBODY) {
+
+                main_object->Move(Vector2f(move_x / 2, move_y / 2));
+                correct_coliders[i]->Move(Vector2f(-(move_x / 2), -(move_y / 2)));
+
+                if (move_x != 0) {
+
+                    main_object->EnableCollisionXAxsis();
+                    correct_coliders[i]->EnableCollisionXAxsis();
+                }
+
+                if (move_y != 0) {
+
+                    main_object->EnableCollisionYAxsis();
+                    correct_coliders[i]->EnableCollisionYAxsis();
+                }
+            }
+            else if (main_object->GetCollisionType() == CollisionType::RIGHTBODY && correct_coliders[i]->GetCollisionType() == CollisionType::STATICBODY) {
+
+                main_object->Move(Vector2f(move_x, move_y));
+
+                if (move_x != 0)
+                    main_object->EnableCollisionXAxsis();
+
+                if (move_y != 0)
+                    main_object->EnableCollisionYAxsis();
+            }
+        }
     }
-    else if (flip_type == "vertical") {
-
-        if ((angle.degree > 0) && (angle.degree < 180)) angle.degree = 90;
-        else if (angle.degree > 180) angle.degree = 270;
-    }
-
-    return angle;
 }
 
+std::vector<Vector> Collision::ConvertToVectors(RectangleCollision *object, Vector2f center) {
+
+    std::vector<Vector> vectors;
+    std::vector<Vector2f> corners_points;
+    corners_points.push_back(object->GetPointPosition('A'));
+    corners_points.push_back(object->GetPointPosition('B'));
+    corners_points.push_back(object->GetPointPosition('C'));
+    corners_points.push_back(object->GetPointPosition('D'));
+
+    for (int i = 0; i < 4; ++i) {
+
+        Vector vector = {corners_points[i].x - center.x, corners_points[i].y - center.y};
+        vectors.push_back(vector);
+    }
+
+    return vectors;
+}
+
+float Collision::GetProjection(Vector2f point1, Vector2f point2, Vector axis) {
+
+    Vector vector = {point2.x - point1.x, point2.y - point1.y};
+    return vector.GetDotProduct(axis);
+}
+
+float Collision::GetMinnimumProjection(std::vector<Vector> vectors, Vector axis) {
+
+    float current_min = vectors[0].GetDotProduct(axis);
+
+    for (int i = 1; i < vectors.size(); ++i) {
+
+        float min = vectors[i].GetDotProduct(axis);
+
+        if (min < current_min)
+            current_min = min;
+    }
+
+    return current_min;
+}
+
+float Collision::GetMaxsimiumProjection(std::vector<Vector> vectors, Vector axis) {
+
+    float current_max = vectors[0].GetDotProduct(axis);
+
+    for (int i = 1; i < vectors.size(); ++i) {
+
+        float max = vectors[i].GetDotProduct(axis);
+
+        if (max > current_max)
+            current_max = max;
+    }
+
+    return current_max;
+}

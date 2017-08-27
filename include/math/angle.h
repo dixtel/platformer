@@ -1,7 +1,7 @@
 #ifndef ANGLE_H
 #define ANGLE_H
 
-#include "include/vectro2.h"
+#include "include/math/vector2.h"
 
 #include <cmath>
 #include <iostream>

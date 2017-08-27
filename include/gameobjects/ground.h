@@ -7,7 +7,7 @@
 #include "include/rectanglecollision.h"
 #include "include/gameobject.h"
 
-#include "include/vectro2.h"
+#include "include/math/vector2.h"
 
 class Ground : public GameObject
 {

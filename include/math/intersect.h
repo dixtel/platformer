@@ -1,7 +1,7 @@
 #ifndef INTERSECT_H
 #define INTERSECT_H
 
-#include "include/vectro2.h"
+#include "include/math/vector2.h"
 
 static Vector2f GetIntersect(Vector2f A1, Vector2f A2, Vector2f B1, Vector2f B2) {
 

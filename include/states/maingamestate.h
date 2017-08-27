@@ -5,7 +5,7 @@
 
 #include "include/gamestate.h"
 #include "include/render.h"
-#include "include/vectro2.h"
+#include "include/math/vector2.h"
 #include "include/gameobjectmanager.h"
 #include "include/imageloader.h"
 #include "include/handleinput.h"

@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "include/vectro2.h"
+#include "include/math/vector2.h"
 
 #include <string>
 

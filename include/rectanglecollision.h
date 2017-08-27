@@ -1,7 +1,7 @@
 #ifndef RECTANGLECOLLISION_H
 #define RECTANGLECOLLISION_H
 
-#include "include/vectro2.h"
+#include "include/math/vector2.h"
 
 enum CollisionType {
     STATICBODY,         // e.g ground, walls
@@ -28,15 +28,16 @@ public:
 private:
 
     void SetCollisionPosition(Vector2f position);
-    void SetCurrentPosition(Vector2f position);
 
     void EnableCollisionXAxsis();
     void EnableCollisionYAxsis();
 
+    void Move(Vector2f move_distance);
+
     CollisionType GetCollisionType();
     Vector2u GetSize();
-    Vector2f &GetCurrentPoint(char point);
-    Vector2f &GetOldPoint(char point);
+    Vector2f GetPointPosition(char point);
+    Vector2f GetCenterPosition();
 protected:
 
     bool is_collision_x_axsis;
@@ -47,15 +48,11 @@ protected:
     Vector2f old_position;
     Vector2u size;
 
-    Vector2f current_point_a;                   // A --- B
-    Vector2f current_point_b;                   // D --- C
-    Vector2f current_point_c;
-    Vector2f current_point_d;
-
-    Vector2f old_point_a;
-    Vector2f old_point_b;
-    Vector2f old_point_c;
-    Vector2f old_point_d;
+    Vector2f point_a;                   // A --- B
+    Vector2f point_b;                   // D --- C
+    Vector2f point_c;
+    Vector2f point_d;
+    Vector2f center;
 
     void Update();
 };

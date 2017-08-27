@@ -3,7 +3,7 @@
 
 #include "include/rectangle.h"
 #include "include/rectanglecollision.h"
-#include "include/vectro2.h"
+#include "include/math/vector2.h"
 
 enum GameObjectInput {
     RIGHT_ON,

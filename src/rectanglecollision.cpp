@@ -6,6 +6,7 @@ RectangleCollision::RectangleCollision() {
     is_collision_y_axsis = false;
     current_position = {0, 0};
     old_position = {0, 0};
+    center = {0, 0};
 }
 
 void RectangleCollision::Init(Vector2f position, Vector2u size, CollisionType collision_type) {
@@ -14,9 +15,7 @@ void RectangleCollision::Init(Vector2f position, Vector2u size, CollisionType co
     this->collision_type = collision_type;
     old_position = position;
     current_position = position;
-    old_point_a = old_point_b = old_point_c = old_point_d
-            = current_point_a = current_point_b = current_point_c = current_point_d
-            = position;
+    point_a = point_b = point_c = point_d = position;
     Update();
 }
 
@@ -67,11 +66,6 @@ void RectangleCollision::SetCollisionPosition(Vector2f position) {
     Update();
 }
 
-void RectangleCollision::SetCurrentPosition(Vector2f position) {
-
-    current_position = position;
-    Update();
-}
 
 void RectangleCollision::EnableCollisionXAxsis() {
 
@@ -81,6 +75,13 @@ void RectangleCollision::EnableCollisionXAxsis() {
 void RectangleCollision::EnableCollisionYAxsis() {
 
     is_collision_y_axsis = true;
+}
+
+void RectangleCollision::Move(Vector2f move_distance) {
+
+    current_position += move_distance;
+    old_position = current_position;
+    Update();
 }
 
 CollisionType RectangleCollision::GetCollisionType() {
@@ -93,61 +94,37 @@ Vector2u RectangleCollision::GetSize() {
     return size;
 }
 
-Vector2f &RectangleCollision::GetCurrentPoint(char point) {
-
-    static Vector2f nothing = {0, 0};
+Vector2f RectangleCollision::GetPointPosition(char point) {
 
     switch (point) {
     case 'A':
 
-        return current_point_a;
+        return point_a;
     case 'B':
 
-        return current_point_b;
+        return point_b;
     case 'C':
 
-        return current_point_c;
+        return point_c;
     case 'D':
 
-        return current_point_d;
+        return point_d;
     default:
 
-        return nothing;
+        return {0, 0};
     }
 }
 
-Vector2f &RectangleCollision::GetOldPoint(char point) {
+Vector2f RectangleCollision::GetCenterPosition() {
 
-    static Vector2f nothing = {0, 0};
-
-    switch (point) {
-    case 'A':
-
-        return old_point_a;
-    case 'B':
-
-        return old_point_b;
-    case 'C':
-
-        return old_point_c;
-    case 'D':
-
-        return old_point_d;
-    default:
-
-        return nothing;
-    }
+    return center;
 }
 
 void RectangleCollision::Update() {
 
-    old_point_a = current_point_a;
-    old_point_b = current_point_b;
-    old_point_c = current_point_c;
-    old_point_d = current_point_d;
-
-    current_point_a = current_position;
-    current_point_b = current_position + Vector2f {size.x, 0};
-    current_point_c = current_position + Vector2f {size.x, size.y};
-    current_point_d = current_position + Vector2f {0, size.y};
+    point_a = current_position;
+    point_b = current_position + Vector2f {size.x, 0};
+    point_c = current_position + Vector2f {size.x, size.y};
+    point_d = current_position + Vector2f {0, size.y};
+    center = Vector2f(current_position.x + (size.x / 2), current_position.y + (size.y / 2));
 }

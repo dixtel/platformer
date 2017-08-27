@@ -37,8 +37,8 @@ void Collision::SetCollision(RectangleCollision *main_object, std::vector<Rectan
 
         for (int j = 0; j < 4; ++j) {
 
-            if ((points[j].x > colider_corners[0].x) && (points[j].x < colider_corners[1].x)
-                && (points[j].y > colider_corners[0].y) && (points[j].y < colider_corners[1].y))
+            if ((points[j].x >= colider_corners[0].x) && (points[j].x <= colider_corners[1].x)
+                && (points[j].y >= colider_corners[0].y) && (points[j].y <= colider_corners[1].y))
                 correct_coliders.push_back(coliders[i]);
         }
     }
@@ -141,7 +141,18 @@ void Collision::SetCollision(RectangleCollision *main_object, std::vector<Rectan
             }
             else if (main_object->GetCollisionType() == CollisionType::RIGHTBODY && correct_coliders[i]->GetCollisionType() == CollisionType::STATICBODY) {
 
+
+                float correct_position = correct_coliders[i]->GetPosition().y-50;
+
+                float positione_y_before = main_object->GetPosition().y;
+
                 main_object->Move(Vector2f(move_x, move_y));
+
+                float positione_y_after = main_object->GetPosition().y;
+
+                if (positione_y_after != correct_position) {
+                    int a = 0;
+                }
 
                 if (move_x != 0)
                     main_object->EnableCollisionXAxsis();

@@ -142,11 +142,14 @@ void Player::UpdatePhysics(double dt) {
 
     position += velocity;
     rectangle_collision.SetPosition(position);
+
+    SDL_Log("Before pos: %f %f", position.x, position.y);
 }
 
 void Player::Update() {
 
     position = rectangle_collision.GetPosition();
+    SDL_Log("After pos: %f %f", position.x, position.y);
 
     rectangle.SetPosition(position);
     rectangle.SetSize(size);

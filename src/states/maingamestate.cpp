@@ -15,17 +15,7 @@ MainGameState::MainGameState(const unsigned width_state, const unsigned height_s
     game_object_manager.GetGameObject("players", "player")->Init({460, 250}, {50, 50}, image_loader.LoadImage("res/textures/player.png"));
 
     game_object_manager.CreateObject("grounds", "ground_1", new Ground());
-    game_object_manager.GetGameObject("grounds", "ground_1")->Init({200, 150}, {200, 50}, NULL);
-
-    game_object_manager.CreateObject("grounds", "ground_2", new Ground());
-    game_object_manager.GetGameObject("grounds", "ground_2")->Init({200, 200}, {50, 200}, image_loader.LoadImage("res/textures/ground.png"));
-
-    game_object_manager.CreateObject("grounds", "ground_3", new Ground());
-    game_object_manager.GetGameObject("grounds", "ground_3")->Init({200, 350}, {200, 50}, NULL);
-
-    game_object_manager.CreateObject("grounds", "ground_4", new Ground());
-    game_object_manager.GetGameObject("grounds", "ground_4")->Init({150, 200}, {50, 200}, image_loader.LoadImage("res/textures/ground.png"));
-
+    game_object_manager.GetGameObject("grounds", "ground_1")->Init({300, 300}, {100, 100}, NULL);
 }
 
 MainGameState::~MainGameState() {
@@ -48,11 +38,9 @@ void MainGameState::RenderState() {
 
     // TODO add viewpoint
     render->Clear();
+    // TODO change this to get by groups
     render->Draw(game_object_manager.GetGameObject("players", "player")->GetRectangle());
     render->Draw(game_object_manager.GetGameObject("grounds", "ground_1")->GetRectangle());
-    render->Draw(game_object_manager.GetGameObject("grounds", "ground_2")->GetRectangle());
-    render->Draw(game_object_manager.GetGameObject("grounds", "ground_3")->GetRectangle());
-    render->Draw(game_object_manager.GetGameObject("grounds", "ground_4")->GetRectangle());
     render->Display();
 }
 

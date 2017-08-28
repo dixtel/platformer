@@ -25,6 +25,8 @@ MainGameState::~MainGameState() {
 void MainGameState::UpdateState(float dt) {
 
     game_object_manager.GetGameObject("players", "player")->UpdatePhysics(dt);
+    game_object_manager.GetGameObject("grounds", "ground_1")->UpdatePhysics(dt);
+
 
     if (collision.IsCollision(game_object_manager.GetGameObject("players", "player")->GetRectangleCollision(), game_object_manager.GetGroupObjectsAsRectangleCollision("grounds"))) {
 
@@ -32,6 +34,7 @@ void MainGameState::UpdateState(float dt) {
     }
 
     game_object_manager.GetGameObject("players", "player")->Update();
+    game_object_manager.GetGameObject("grounds", "ground_1")->Update();;
 }
 
 void MainGameState::RenderState() {

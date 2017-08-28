@@ -27,7 +27,7 @@ void Player::Init(Vector2f position, Vector2u size, SDL_Texture *texture) {
     jump_force = 10;
     max_speed = 20;
     gravity = 5;
-    friction = 7;
+    friction = 10;
 
     destination_texture = {0, 0, size.x, size.y};
 
@@ -142,14 +142,11 @@ void Player::UpdatePhysics(double dt) {
 
     position += velocity;
     rectangle_collision.SetPosition(position);
-
-    SDL_Log("Before pos: %f %f", position.x, position.y);
 }
 
 void Player::Update() {
 
     position = rectangle_collision.GetPosition();
-    SDL_Log("After pos: %f %f", position.x, position.y);
 
     rectangle.SetPosition(position);
     rectangle.SetSize(size);

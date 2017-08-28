@@ -16,7 +16,8 @@ struct Vector2f {
 
     bool operator!=(const Vector2f &vec) {
 
-        if ((x == vec.x) && (y == vec.y)) return false;
+        if ((x == vec.x) && (y == vec.y))
+            return false;
         return true;
     }
 
@@ -68,7 +69,8 @@ struct Vector2i {
 
     bool operator!=(const Vector2i &vec) {
 
-        if ((x == vec.x) && (y == vec.y)) return true;
+        if ((x == vec.x) && (y == vec.y))
+            return true;
         return false;
     }
 
@@ -120,7 +122,8 @@ struct Vector2u {
 
     bool operator!=(const Vector2u &vec) {
 
-        if ((x == vec.x) && (y == vec.y)) return true;
+        if ((x == vec.x) && (y == vec.y))
+            return true;
         return false;
     }
 

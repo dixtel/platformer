@@ -27,29 +27,29 @@ public:
 
 private:
 
-    SDL_Rect destination_texture;
+    SDL_Rect           destination_texture;
 
-    Rectangle rectangle;
+    Rectangle          rectangle;
     RectangleCollision rectangle_collision;
 
-    Vector2f position;
-    Vector2u size;
+    Vector2f           position;
+    Vector2u           size;
 
-    Vector2f velocity;
-    float acceleration;
-    float speed;
-    float jump_force;
-    float max_speed;
-    float gravity;
-    float friction;
+    Vector2f           velocity;
+    float              acceleration;
+    float              speed;
+    float              jump_force;
+    float              max_speed;
+    float              gravity;
+    float              friction;
 
-    bool is_jump;
+    bool               is_jump;
 
-    bool jump;
-    bool move_right;
-    bool move_left;
-    bool move_down;
-    bool move_up;
+    bool               jump;
+    bool               move_right;
+    bool               move_left;
+    bool               move_down;
+    bool               move_up;
 };
 
 #endif // PLAYER_H

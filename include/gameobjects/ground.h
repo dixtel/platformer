@@ -24,13 +24,12 @@ public:
     RectangleCollision *GetRectangleCollision();
 private:
 
-    SDL_Rect destination_texture;
-
-    Rectangle rectangle;
+    SDL_Rect           destination_texture;
+    Rectangle          rectangle;
     RectangleCollision rectangle_collision;
 
-    Vector2f position;
-    Vector2u size;
+    Vector2f           position;
+    Vector2u           size;
 };
 
 #endif // GROUND_H

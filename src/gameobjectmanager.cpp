@@ -2,6 +2,10 @@
 
 GameObjectManager::GameObjectManager() {
 
+}
+
+GameObjectManager::~GameObjectManager() {
+
     for (std::map<std::string, std::map<std::string, GameObject*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
         for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->second.begin(); it_objects != it_groups->second.end(); ++it_objects) {
@@ -13,10 +17,6 @@ GameObjectManager::GameObjectManager() {
     }
 
     gameobjects.clear();
-}
-
-GameObjectManager::~GameObjectManager() {
-
 }
 
 void GameObjectManager::CreateObject(std::string group, std::string object_name, GameObject* object) {

@@ -15,7 +15,7 @@ void RectangleCollision::Init(Vector2f position, Vector2u size, CollisionType co
     this->collision_type = collision_type;
     old_position = position;
     current_position = position;
-    point_a = point_b = point_c = point_d = position;
+    point_A = point_B = point_C = point_D = position;
     Update();
 }
 
@@ -66,6 +66,12 @@ void RectangleCollision::SetCollisionPosition(Vector2f position) {
     Update();
 }
 
+void RectangleCollision::Move(Vector2f move_distance) {
+
+    current_position += move_distance;
+    old_position = current_position;
+    Update();
+}
 
 void RectangleCollision::EnableCollisionXAxsis() {
 
@@ -75,13 +81,6 @@ void RectangleCollision::EnableCollisionXAxsis() {
 void RectangleCollision::EnableCollisionYAxsis() {
 
     is_collision_y_axsis = true;
-}
-
-void RectangleCollision::Move(Vector2f move_distance) {
-
-    current_position += move_distance;
-    old_position = current_position;
-    Update();
 }
 
 CollisionType RectangleCollision::GetCollisionType() {
@@ -99,16 +98,16 @@ Vector2f RectangleCollision::GetPointPosition(char point) {
     switch (point) {
     case 'A':
 
-        return point_a;
+        return point_A;
     case 'B':
 
-        return point_b;
+        return point_B;
     case 'C':
 
-        return point_c;
+        return point_C;
     case 'D':
 
-        return point_d;
+        return point_D;
     default:
 
         return {0, 0};
@@ -122,9 +121,9 @@ Vector2f RectangleCollision::GetCenterPosition() {
 
 void RectangleCollision::Update() {
 
-    point_a = current_position;
-    point_b = current_position + Vector2f {size.x, 0};
-    point_c = current_position + Vector2f {size.x, size.y};
-    point_d = current_position + Vector2f {0, size.y};
+    point_A = current_position;
+    point_B = current_position + Vector2f {size.x, 0};
+    point_C = current_position + Vector2f {size.x, size.y};
+    point_D = current_position + Vector2f {0, size.y};
     center = Vector2f(current_position.x + (size.x / 2), current_position.y + (size.y / 2));
 }

@@ -8,7 +8,7 @@
 class Render
 {
     SDL_Renderer *renderer = nullptr;
-    SDL_Color clear_color;
+    SDL_Color     clear_color;
 public:
 
     Render(SDL_Renderer *renderer, SDL_Color clear_color);

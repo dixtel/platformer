@@ -23,16 +23,13 @@ public:
 
     bool GetCollisionXAxsis();
     bool GetCollisionYAxsis();
-
     Vector2f GetPosition();
 private:
 
     void SetCollisionPosition(Vector2f position);
-
+    void Move(Vector2f move_distance);
     void EnableCollisionXAxsis();
     void EnableCollisionYAxsis();
-
-    void Move(Vector2f move_distance);
 
     CollisionType GetCollisionType();
     Vector2u GetSize();
@@ -40,21 +37,23 @@ private:
     Vector2f GetCenterPosition();
 protected:
 
-    bool is_collision_x_axsis;
-    bool is_collision_y_axsis;
-
-    CollisionType collision_type;
-    Vector2f current_position;
-    Vector2f old_position;
-    Vector2u size;
-
-    Vector2f point_a;                   // A --- B
-    Vector2f point_b;                   // D --- C
-    Vector2f point_c;
-    Vector2f point_d;
-    Vector2f center;
-
     void Update();
+
+    bool           is_collision_x_axsis;
+    bool           is_collision_y_axsis;
+
+    CollisionType  collision_type;
+    Vector2f       current_position;
+    Vector2f       old_position;
+    Vector2u       size;
+
+
+    // A = left up corner, B = right up corner, C = right down corner, D = left down corner
+    Vector2f       point_A;
+    Vector2f       point_B;
+    Vector2f       point_C;
+    Vector2f       point_D;
+    Vector2f       center;
 };
 
 #endif // RECTANGLECOLLISION_H

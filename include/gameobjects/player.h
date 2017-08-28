@@ -6,7 +6,6 @@
 #include "include/rectangle.h"
 #include "include/rectanglecollision.h"
 #include "include/gameobject.h"
-
 #include "include/math/vector2.h"
 
 class Player : public GameObject

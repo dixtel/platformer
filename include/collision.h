@@ -23,12 +23,10 @@ public:
     Collision();
 
     bool IsCollision(RectangleCollision *main_object, std::vector<RectangleCollision*> &coliders);
-
     void SetCollision(RectangleCollision *main_object, std::vector<RectangleCollision*> &coliders);
 private:
 
     std::vector<Vector> ConvertToVectors(RectangleCollision *object, Vector2f center);
-
     float GetProjection(Vector2f point1, Vector2f point2, Vector axis);
     float GetMinnimumProjection(std::vector<Vector> vectors, Vector axis);
     float GetMaxsimiumProjection(std::vector<Vector> vectors, Vector axis);

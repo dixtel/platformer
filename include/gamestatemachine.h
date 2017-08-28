@@ -20,15 +20,15 @@ public:
 
     void PushBack(STATE_TYPE state_name, GameState *state);
     void ChangeState(STATE_TYPE state_name);
-
     void Update(float dt);
     void Render();
     void HandleEvents();
     bool IsGameExit();
 private:
 
+    // [state type], [state pointer]
     std::map<int, GameState*> game_states;
-    STATE_TYPE current_game_state;
+    STATE_TYPE                current_game_state;
 };
 
 #endif // GAMESTATEMACHINE_H

@@ -4,20 +4,19 @@
 #include <SDL2/SDL.h>
 
 #include "include/rectanglecollision.h"
-
 #include "include/math/vector2.h"
 
 class Rectangle
 {
-    SDL_Texture *texture = nullptr;
-    SDL_Rect     destination_rectangle;
-    SDL_Rect     source_texture;
-    SDL_Color    fill_rect_color;
+    SDL_Texture  *texture = nullptr;
+    SDL_Rect      destination_rectangle;
+    SDL_Rect      source_texture;
+    SDL_Color     fill_rect_color;
 
-    Vector2f position;
-    Vector2u size;
+    Vector2f      position;
+    Vector2u      size;
 
-    bool source_texture_set;
+    bool          source_texture_set;
 public:
 
     Rectangle();

@@ -8,8 +8,8 @@
 #include "include/window.h"
 #include "include/render.h"
 #include "include/gamestatemachine.h"
-#include "include/states/maingamestate.h"
 #include "include/handleinput.h"
+#include "include/states/maingamestate.h"
 
 class GameEngine
 {
@@ -20,7 +20,6 @@ public:
 
     bool Init();
     void CleanUp();
-
     void Start();
 private:
 
@@ -28,15 +27,15 @@ private:
     bool InitSDL();
     bool InitStates();
 
-    Window window;
-    Render *render = nullptr;
+    Render           *render = nullptr;
+    Window           window;
     GameStateMachine game_state_machine;
 
-    std::string title;
-    unsigned width_window;
-    unsigned height_window;
+    std::string      title;
+    unsigned         width_window;
+    unsigned         height_window;
 
-    bool running;
+    bool             running;
 };
 
 #endif // GAMEENGINE_H

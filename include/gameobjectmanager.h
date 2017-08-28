@@ -26,9 +26,9 @@ public:
     std::vector<RectangleCollision*> &GetGroupObjectsAsRectangleCollision(std::string group);
 private:
 
-    std::map<std::string, std::map<std::string, GameObject*>> gameobjects; // [group object]   ->
-                                                                           // [name object]    ->
-                                                                           // [object pointer]
+    // [group object] -> ([name object], [object pointer])
+    std::map<std::string, std::map<std::string, GameObject*>> gameobjects;
+
 };
 
 #endif // GAMEOBJECTMANAGER_H

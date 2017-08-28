@@ -85,12 +85,12 @@ void Collision::SetCollision(RectangleCollision *main_object, std::vector<Rectan
         float gap_axisy = 0;
 
         if (main_object_left_axisx)
-            gap_axisx = fabs(objects_projection_axisx) - main_object_max_axisx + colider_min_axisx;
+            gap_axisx = -objects_projection_axisx - main_object_max_axisx + colider_min_axisx;
         else
             gap_axisx = objects_projection_axisx - colider_max_axisx + main_object_min_axisx;
 
         if (main_object_left_axisy)
-            gap_axisy = fabs(objects_projection_axisy) - main_object_max_axisy + colider_min_axisy;
+            gap_axisy = -objects_projection_axisy - main_object_max_axisy + colider_min_axisy;
         else
             gap_axisy = objects_projection_axisy - colider_max_axisy + main_object_min_axisy;
 
@@ -141,18 +141,12 @@ void Collision::SetCollision(RectangleCollision *main_object, std::vector<Rectan
             }
             else if (main_object->GetCollisionType() == CollisionType::RIGHTBODY && correct_coliders[i]->GetCollisionType() == CollisionType::STATICBODY) {
 
-
-                float correct_position = correct_coliders[i]->GetPosition().y-50;
-
-                float positione_y_before = main_object->GetPosition().y;
-
                 main_object->Move(Vector2f(move_x, move_y));
 
-                float positione_y_after = main_object->GetPosition().y;
-
-                if (positione_y_after != correct_position) {
-                    int a = 0;
-                }
+                Vector2f round_position = main_object->GetPosition();
+                round_position.x = std::round(round_position.x);
+                round_position.y = std::round(round_position.y);
+                main_object->SetPosition(round_position);
 
                 if (move_x != 0)
                     main_object->EnableCollisionXAxsis();

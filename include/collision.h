@@ -11,6 +11,7 @@
 #include "include/math/vector2.h"
 
 #include <vector>
+#include <cmath>
 
 const Vector AXIS_X = {1, 0};
 const Vector AXIS_Y = {0, 1};

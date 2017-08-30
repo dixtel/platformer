@@ -38,7 +38,7 @@ private:
     std::string path_image;
 
     rapidxml::file<> *file = nullptr;
-    rapidxml::xml_document<> documnet;
+    rapidxml::xml_document<> document;
 };
 
 #endif // TSXPARSER_H

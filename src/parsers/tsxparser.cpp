@@ -36,9 +36,9 @@ bool TSXParser::LoadTSX(std::string path) {
         return false;
     }
 
-    documnet.parse<0>(file->data());
+    document.parse<0>(file->data());
 
-    rapidxml::xml_node<> *tileset_node = documnet.first_node("tileset");
+    rapidxml::xml_node<> *tileset_node = document.first_node("tileset");
 
     tile_width = ConvertToUnsigned(tileset_node->first_attribute("tilewidth")->value());
     tile_height = ConvertToUnsigned(tileset_node->first_attribute("tileheight")->value());

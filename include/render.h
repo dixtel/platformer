@@ -4,6 +4,9 @@
 #include <SDL2/SDL.h>
 
 #include "include/rectangle.h"
+#include "include/gameobject.h"
+
+#include <vector>
 
 class Render
 {
@@ -16,6 +19,7 @@ public:
     void SetColorClear(SDL_Color color);
     void Clear();
     void Draw(Rectangle *rectangle);
+    void Draw(std::vector<GameObject*> &gameobjects);
     void Display();
 
     SDL_Renderer *GetRenderer();

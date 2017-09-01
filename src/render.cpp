@@ -35,6 +35,14 @@ void Render::Draw(Rectangle *rectangle) {
                    &rectangle->GetRectDestination());
 }
 
+void Render::Draw(std::vector<GameObject*> &gameobjects) {
+
+    for (std::vector<GameObject*>::iterator it = gameobjects.begin(); it != gameobjects.end(); ++it) {
+
+        Draw((*it)->GetRectangle());
+    }
+}
+
 void Render::Display() {
 
     SDL_RenderPresent(renderer);

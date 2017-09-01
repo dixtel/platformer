@@ -27,8 +27,6 @@ public:
 
 private:
 
-    SDL_Rect           destination_texture;
-
     Rectangle          rectangle;
     RectangleCollision rectangle_collision;
 

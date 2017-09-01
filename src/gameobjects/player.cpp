@@ -29,12 +29,10 @@ void Player::Init(Vector2f position, Vector2u size, SDL_Texture *texture) {
     gravity = 5;
     friction = 10;
 
-    destination_texture = {0, 0, size.x, size.y};
-
     rectangle.SetPosition(position);
     rectangle.SetSize(size);
     rectangle.SetTexture(texture);
-    rectangle.SetSourceTexture(destination_texture);
+    rectangle.SetSourceTexture({0, 0, size.x, size.y});
 
     rectangle_collision.Init(position, size, RIGHTBODY);
 
@@ -149,8 +147,6 @@ void Player::Update() {
     position = rectangle_collision.GetPosition();
 
     rectangle.SetPosition(position);
-    rectangle.SetSize(size);
-    rectangle.SetSourceTexture(destination_texture);
 }
 
 void Player::HandleInput(GameObjectInput input) {

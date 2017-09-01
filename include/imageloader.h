@@ -13,7 +13,7 @@ public:
     ImageLoader();
 
     void Init(Render *render);
-    SDL_Texture *LoadImage(char *path);
+    SDL_Texture *LoadImage(const char *path);
 private:
 
     Render *render = nullptr;

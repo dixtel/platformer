@@ -9,7 +9,7 @@ void ImageLoader::Init(Render *render) {
     this->render = render;
 }
 
-SDL_Texture *ImageLoader::LoadImage(char *path) {
+SDL_Texture *ImageLoader::LoadImage(const char *path) {
 
     SDL_Texture *texture = IMG_LoadTexture(render->GetRenderer(), path);
 

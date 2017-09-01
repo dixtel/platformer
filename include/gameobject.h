@@ -5,6 +5,8 @@
 #include "include/rectanglecollision.h"
 #include "include/math/vector2.h"
 
+#include <string>
+
 enum GameObjectInput {
     RIGHT_ON,
     RIGHT_OFF,
@@ -30,8 +32,22 @@ public:
     virtual void HandleInput(GameObjectInput input) = 0;
     virtual void OnGround() {}
 
+    void SetLayerType(std::string layer_type) {
+
+        this->layer_type = layer_type;
+    }
+
     virtual Rectangle *GetRectangle() = 0;
     virtual RectangleCollision *GetRectangleCollision() = 0;
+
+    std::string GetLayerType() {
+
+        return layer_type;
+    }
+
+private:
+
+    std::string layer_type;
 };
 
 

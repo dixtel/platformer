@@ -42,7 +42,7 @@ bool TMXParser::LoadTMX(std::string path) {
     tile_width = ConvertToInt(map_node->first_attribute("tilewidth")->value());
     tile_height = ConvertToInt(map_node->first_attribute("tilewidth")->value());
 
-    rapidxml::xml_node<> *tileset_node = document.first_node("tileset");
+    rapidxml::xml_node<> *tileset_node = map_node->first_node("tileset");
 
     path_tileset = tileset_node->first_attribute("source")->value();
 
@@ -56,6 +56,8 @@ bool TMXParser::LoadTMX(std::string path) {
 
         layers.insert(std::make_pair(name_layer, ConvertLayerToVector(layer_data)));
     }
+
+    return true;
 }
 
 unsigned TMXParser::GetWidth() {
@@ -83,21 +85,32 @@ std::string TMXParser::GetPathTileset() {
     return path_tileset;
 }
 
-std::vector<int> TMXParser::ConvertLayerToVector(std::string layer_name) {
+std::vector<int> TMXParser::GetLayer(std::string layer_name) {
+
+    for (std::map<std::string, std::vector<int>>::iterator it = layers.begin(); it != layers.end(); ++it) {
+
+        if (it->first == layer_name)
+            return it->second;
+    }
+
+    return std::vector<int> {};
+}
+
+std::vector<int> TMXParser::ConvertLayerToVector(std::string data) {
 
     std::vector<int> layer;
 
-    std::string data;
-    for (int i = 0; i < layer_name.size(); ++i) {
+    std::string value;
+    for (int i = 0; i < data.size(); ++i) {
 
-        if (int(layer_name[i]) >= 48 && int(layer_name[i]) <= 57) {
+        if (int(data[i]) >= 48 && int(data[i]) <= 57) {
 
-            data += layer_name[i];
+            value += data[i];
         }
-        else if (layer_name[i] == ',') {
+        else if (data[i] == ',') {
 
-            layer.push_back(ConvertToInt(data));
-            data.clear();
+            layer.push_back(ConvertToInt(value));
+            value.clear();
         }
         else {
 
@@ -105,6 +118,7 @@ std::vector<int> TMXParser::ConvertLayerToVector(std::string layer_name) {
         }
     }
 
+    return layer;
 }
 
 template <typename T>

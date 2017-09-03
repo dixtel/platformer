@@ -6,94 +6,94 @@ GameObjectManager::GameObjectManager() {
 
 GameObjectManager::~GameObjectManager() {
 
-    for (std::map<std::string, std::map<std::string, GameObject*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
+    for (std::map<std::string, std::vector<GameObjectInfomation*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
-        for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->second.begin(); it_objects != it_groups->second.end(); ++it_objects) {
+        for (std::vector<GameObjectInfomation*>::iterator it_object_info = it_groups->second.begin(); it_object_info != it_groups->second.end(); ++it_object_info) {
 
-            delete it_objects->second;
+            delete (*it_object_info);
         }
-
-        it_groups->second.clear();
     }
-
-    gameobjects.clear();
 }
 
 void GameObjectManager::CreateObject(std::string group, GameObject* object) {
 
     std::string object_number = "1";
 
-    for (std::map<std::string, std::map<std::string, GameObject*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
+    for (std::map<std::string, std::vector<GameObjectInfomation*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
         if (it_groups->first != group)
             continue;
 
         object_number = std::to_string(it_groups->second.size() + 1);
 
-        for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->second.begin(); it_objects != it_groups->second.end(); ++it_objects) {
+        it_groups->second.push_back(new GameObjectInfomation(object, group));
 
-            if (it_objects->first != object_number)
-                continue;
-
-            delete it_objects->second;
-            it_groups->second.erase(it_objects);
-        }
+        return;
     }
 
-    gameobjects[group].insert(std::make_pair(object_number, object));
+    gameobjects.insert(std::make_pair(group, std::vector<GameObjectInfomation*>{}));
+    gameobjects[group].push_back(new GameObjectInfomation(object, object_number));
 }
 
-void GameObjectManager::CreateObject(std::string group, std::string object_name, GameObject* object) {
+void GameObjectManager::CreateObject(std::string group, std::string name_object, GameObject* object) {
 
-    for (std::map<std::string, std::map<std::string, GameObject*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
+    for (std::map<std::string, std::vector<GameObjectInfomation*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
         if (it_groups->first != group)
             continue;
 
-        for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->second.begin(); it_objects != it_groups->second.end(); ++it_objects) {
+        for (std::vector<GameObjectInfomation*>::iterator it_object_info = it_groups->second.begin(); it_object_info != it_groups->second.end(); ++it_object_info) {
 
-            if (it_objects->first != object_name)
-                continue;
+            if ((*it_object_info)->name_object == name_object) {
 
-            delete it_objects->second;
-            it_groups->second.erase(it_objects);
+                delete (*it_object_info);
+                *it_object_info = new GameObjectInfomation(object, name_object);
+
+                return;
+            }
         }
+
+        it_groups->second.push_back(new GameObjectInfomation(object, name_object));
+
+        return;
     }
 
-    gameobjects[group].insert(std::make_pair(object_name, object));
+    gameobjects.insert(std::make_pair(group, std::vector<GameObjectInfomation*>{}));
+    gameobjects[group].push_back(new GameObjectInfomation(object, name_object));
 }
 
-void GameObjectManager::RemoveObject(std::string group, std::string object_name) {
+void GameObjectManager::RemoveObject(std::string group, std::string name_object) {
 
-    for (std::map<std::string, std::map<std::string, GameObject*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
+    for (std::map<std::string, std::vector<GameObjectInfomation*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
         if (it_groups->first != group)
             continue;
 
-        for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->second.begin(); it_objects != it_groups->second.end(); ++it_objects) {
+        for (std::vector<GameObjectInfomation*>::iterator it_object_info = it_groups->second.begin(); it_object_info != it_groups->second.end(); ++it_object_info) {
 
-            if (it_objects->first != object_name)
-                continue;
+            if ((*it_object_info)->name_object == name_object) {
 
-            delete it_objects->second;
-            it_groups->second.erase(it_objects);
+                delete (*it_object_info);
+
+                return;
+            }
         }
     }
 }
 
-GameObject *GameObjectManager::GetGameObject(std::string group, std::string object_name) {
+GameObject *GameObjectManager::GetGameObject(std::string group, std::string name_object) {
 
-    for (std::map<std::string, std::map<std::string, GameObject*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
+    for (std::map<std::string, std::vector<GameObjectInfomation*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
         if (it_groups->first != group)
             continue;
 
-        for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->second.begin(); it_objects != it_groups->second.end(); ++it_objects) {
+        for (std::vector<GameObjectInfomation*>::iterator it_object_info = it_groups->second.begin(); it_object_info != it_groups->second.end(); ++it_object_info) {
 
-            if (it_objects->first != object_name)
-                continue;
+            if ((*it_object_info)->name_object == name_object) {
 
-            return it_objects->second;
+                return (*it_object_info)->object;
+            }
         }
     }
 
@@ -102,12 +102,12 @@ GameObject *GameObjectManager::GetGameObject(std::string group, std::string obje
 
 GameObject *GameObjectManager::GetLastGameObject(std::string group) {
 
-    for (std::map<std::string, std::map<std::string, GameObject*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
+    for (std::map<std::string, std::vector<GameObjectInfomation*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
         if (it_groups->first != group)
             continue;
 
-        return it_groups->second.rbegin()->second;
+        return it_groups->second.back()->object;
     }
 
     return nullptr;
@@ -118,14 +118,14 @@ std::vector<GameObject*> &GameObjectManager::GetGroupObjects(std::string group) 
     static std::vector<GameObject*> objects;
     objects.clear();
 
-    for (std::map<std::string, std::map<std::string, GameObject*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
+    for (std::map<std::string, std::vector<GameObjectInfomation*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
         if (it_groups->first != group)
             continue;
 
-        for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->second.begin(); it_objects != it_groups->second.end(); ++it_objects) {
+        for (std::vector<GameObjectInfomation*>::iterator it_object_info = it_groups->second.begin(); it_object_info != it_groups->second.end(); ++it_object_info) {
 
-            objects.push_back(it_objects->second);
+            objects.push_back((*it_object_info)->object);
         }
 
         return objects;
@@ -139,12 +139,12 @@ std::vector<GameObject*> &GameObjectManager::GetGameObjectsByLayer(std::string l
     static std::vector<GameObject*> objects;
     objects.clear();
 
-    for (std::map<std::string, std::map<std::string, GameObject*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
+    for (std::map<std::string, std::vector<GameObjectInfomation*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
-        for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->second.begin(); it_objects != it_groups->second.end(); ++it_objects) {
+        for (std::vector<GameObjectInfomation*>::iterator it_object_info = it_groups->second.begin(); it_object_info != it_groups->second.end(); ++it_object_info) {
 
-            if (it_objects->second->GetLayerType() == layer_name)
-                objects.push_back(it_objects->second);
+            if ((*it_object_info)->object->GetLayerType() == layer_name)
+                objects.push_back((*it_object_info)->object);
         }
     }
 
@@ -156,14 +156,14 @@ std::vector<RectangleCollision*> &GameObjectManager::GetGroupObjectsAsRectangleC
     static std::vector<RectangleCollision*> objects;
     objects.clear();
 
-    for (std::map<std::string, std::map<std::string, GameObject*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
+    for (std::map<std::string, std::vector<GameObjectInfomation*>>::iterator it_groups = gameobjects.begin(); it_groups != gameobjects.end(); ++it_groups) {
 
         if (it_groups->first != group)
             continue;
 
-        for (std::map<std::string, GameObject*>::iterator it_objects = it_groups->second.begin(); it_objects != it_groups->second.end(); ++it_objects) {
+        for (std::vector<GameObjectInfomation*>::iterator it_object_info = it_groups->second.begin(); it_object_info != it_groups->second.end(); ++it_object_info) {
 
-            objects.push_back(it_objects->second->GetRectangleCollision());
+            objects.push_back((*it_object_info)->object->GetRectangleCollision());
         }
 
         return objects;
@@ -171,5 +171,3 @@ std::vector<RectangleCollision*> &GameObjectManager::GetGroupObjectsAsRectangleC
 
     return objects;
 }
-
-

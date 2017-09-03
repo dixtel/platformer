@@ -137,6 +137,9 @@ void Collision::SetCollision(RectangleCollision *main_object, std::vector<Rectan
 
                     main_object->EnableCollisionYAxsis();
                     correct_coliders[i]->EnableCollisionYAxsis();
+
+                    if (move_y < 0)
+                        main_object->EnableCollisionYAxsisDown();
                 }
             }
             else if (main_object->GetCollisionType() == CollisionType::RIGHTBODY && correct_coliders[i]->GetCollisionType() == CollisionType::STATICBODY) {
@@ -151,8 +154,13 @@ void Collision::SetCollision(RectangleCollision *main_object, std::vector<Rectan
                 if (move_x != 0)
                     main_object->EnableCollisionXAxsis();
 
-                if (move_y != 0)
+                if (move_y != 0) {
+
                     main_object->EnableCollisionYAxsis();
+
+                    if (move_y < 0)
+                        main_object->EnableCollisionYAxsisDown();
+                }
             }
         }
     }

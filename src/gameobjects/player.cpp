@@ -2,19 +2,21 @@
 
 Player::Player() {
 
-    is_jump = false;
-    jump = false;
-    move_right = false;
-    move_left = false;
-    move_down = false;
-    move_up = false;
-    velocity = {0, 0};
+    is_jump      = false;
+    jump         = false;
+    move_right   = false;
+    move_left    = false;
+    move_down    = false;
+    move_up      = false;
+    velocity     = {0, 0};
     acceleration = 0;
-    speed = 0;
-    jump_force = 0;
-    max_speed = 0;
-    gravity = 0;
-    friction = 0;
+    speed        = 0;
+    jump_force   = 0;
+    max_speed    = 0;
+    gravity      = 0;
+    friction     = 0;
+    position     = {0, 0};
+    size         = {0, 0};
 }
 
 void Player::Init(Vector2f position, Vector2u size, SDL_Texture *texture) {
@@ -22,12 +24,12 @@ void Player::Init(Vector2f position, Vector2u size, SDL_Texture *texture) {
     this->position = position;
     this->size = size;
 
-    acceleration = 0.6;
-    speed = 30;
-    jump_force = 10;
-    max_speed = 20;
-    gravity = 5;
-    friction = 10;
+    acceleration = 1;
+    speed        = 17.5;
+    jump_force   = 4;
+    max_speed    = 5;
+    gravity      = 8;
+    friction     = 10;
 
     rectangle.SetPosition(position);
     rectangle.SetSize(size);
@@ -51,25 +53,23 @@ void Player::UpdatePhysics(double dt) {
         velocity.x -= speed * acceleration * dt;
     }
 
-    if (move_down) {
-
-        velocity.y += speed * acceleration * dt;
-    }
-
     if (move_up) {
 
-        velocity.y -= speed * acceleration * dt;
-        //jump = true;
+        jump = true;
+    }
+    else {
+
+        jump = false;
     }
 
     if (jump && (is_jump == false)) {
 
         is_jump = true;
 
-        velocity.y -= jump_force;
+        velocity.y = -jump_force;
     }
 
-    //velocity.y += gravity * dt;
+    velocity.y += gravity * dt;
 
     if (velocity.x > 0) {
 
@@ -100,42 +100,19 @@ void Player::UpdatePhysics(double dt) {
         }
     }
 
-    if (velocity.y > 0) {
-
-        velocity.y -= friction * dt;
-
-        if (velocity.y < 0) {
-
-            velocity.y = 0;
-        }
-
-        if (velocity.y > max_speed) {
-
-            velocity.y = max_speed;
-        }
-    }
-    else if (velocity.y < 0) {
-
-        velocity.y += friction * dt;
-
-        if (velocity.y > 0) {
-
-            velocity.y = 0;
-        }
-
-        if (velocity.y < -max_speed) {
-
-            velocity.y = -max_speed;
-        }
-    }
-
     if (rectangle_collision.GetCollisionXAxsis()) {
 
         velocity.x = 0;
     }
-    else if (rectangle_collision.GetCollisionYAxsis()) {
+
+    if (rectangle_collision.GetCollisionYAxsis()) {
 
         velocity.y = 0;
+    }
+
+    if (rectangle_collision.GetCollisionYAxsisDown()) {
+
+        is_jump = false;
     }
 
     position += velocity;
@@ -198,12 +175,6 @@ void Player::HandleInput(GameObjectInput input) {
     if (input == CLICK_ON_OBJECT_OFF) {
 
     }
-}
-
-void Player::OnGround() {
-
-    jump = false;
-    is_jump = true;
 }
 
 Rectangle *Player::GetRectangle() {

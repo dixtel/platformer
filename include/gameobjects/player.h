@@ -20,8 +20,6 @@ public:
     void Update();
     void HandleInput(GameObjectInput input);
 
-    void OnGround();
-
     Rectangle *GetRectangle();
     RectangleCollision *GetRectangleCollision();
 

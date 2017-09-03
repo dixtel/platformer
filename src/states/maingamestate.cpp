@@ -22,15 +22,18 @@ MainGameState::~MainGameState() {
 
 void MainGameState::UpdateState(float dt) {
 
-    game_object_manager.GetGameObject("Player", "1")->UpdatePhysics(dt);
+    GameObject *player = game_object_manager.GetGameObject("Player", "1");
 
+    player->UpdatePhysics(dt);
 
-    if (collision.IsCollision(game_object_manager.GetGameObject("Player", "1")->GetRectangleCollision(), game_object_manager.GetGroupObjectsAsRectangleCollision("Ground"))) {
+    if (collision.IsCollision(player->GetRectangleCollision(), game_object_manager.GetGroupObjectsAsRectangleCollision("Ground"))) {
 
-        collision.SetCollision(game_object_manager.GetGameObject("Player", "1")->GetRectangleCollision(), game_object_manager.GetGroupObjectsAsRectangleCollision("Ground"));
+        collision.SetCollision(player->GetRectangleCollision(), game_object_manager.GetGroupObjectsAsRectangleCollision("Ground"));
     }
 
-    game_object_manager.GetGameObject("Player", "1")->Update();
+    player->Update();
+
+    render->SetView(player->GetRectangle()->GetPosition() - Vector2f(460, 320), Vector2u(960, 640));
 }
 
 void MainGameState::RenderState() {

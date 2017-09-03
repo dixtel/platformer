@@ -54,6 +54,17 @@ bool RectangleCollision::GetCollisionYAxsis() {
     return false;
 }
 
+bool RectangleCollision::GetCollisionYAxsisDown() {
+
+    if (is_collision_y_axsis_down) {
+
+        is_collision_y_axsis_down = false;
+        return true;
+    }
+
+    return false;
+}
+
 Vector2f RectangleCollision::GetPosition() {
 
     return current_position;
@@ -81,6 +92,11 @@ void RectangleCollision::EnableCollisionXAxsis() {
 void RectangleCollision::EnableCollisionYAxsis() {
 
     is_collision_y_axsis = true;
+}
+
+void RectangleCollision::EnableCollisionYAxsisDown() {
+
+    is_collision_y_axsis_down = true;
 }
 
 CollisionType RectangleCollision::GetCollisionType() {

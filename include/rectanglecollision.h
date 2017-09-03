@@ -23,6 +23,8 @@ public:
 
     bool GetCollisionXAxsis();
     bool GetCollisionYAxsis();
+    bool GetCollisionYAxsisDown();
+
     Vector2f GetPosition();
 private:
 
@@ -30,6 +32,7 @@ private:
     void Move(Vector2f move_distance);
     void EnableCollisionXAxsis();
     void EnableCollisionYAxsis();
+    void EnableCollisionYAxsisDown();
 
     CollisionType GetCollisionType();
     Vector2u GetSize();
@@ -41,6 +44,7 @@ protected:
 
     bool           is_collision_x_axsis;
     bool           is_collision_y_axsis;
+    bool           is_collision_y_axsis_down;
 
     CollisionType  collision_type;
     Vector2f       current_position;

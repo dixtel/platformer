@@ -25,14 +25,14 @@ void WorldMap::CreateObjectsMap(std::string map_name, GameObjectManager *game_ob
 
             std::string path_to_image = path_to_maps + map_parser.GetImagePath();
 
-            std::vector<LayerType> layer_name = {LayerType_TOP, LayerType_MIDDLE, LayerType_DOWN, LayerType_OTHER};
-
-            std::vector<TileType> layer_top = map_parser.GetMapLayer(LayerType_TOP);
+            std::vector<TileType> layer_top    = map_parser.GetMapLayer(LayerType_TOP);
             std::vector<TileType> layer_middle = map_parser.GetMapLayer(LayerType_MIDDLE);
-            std::vector<TileType> layer_down = map_parser.GetMapLayer(LayerType_DOWN);
-            std::vector<TileType> layer_other = map_parser.GetMapLayer(LayerType_OTHER);
+            std::vector<TileType> layer_down   = map_parser.GetMapLayer(LayerType_DOWN);
+            std::vector<TileType> layer_other  = map_parser.GetMapLayer(LayerType_OTHER);
 
             std::vector<std::vector<TileType>> layers {layer_top, layer_middle, layer_down, layer_other};
+
+            std::vector<LayerType> layer_name = {LayerType_TOP, LayerType_MIDDLE, LayerType_DOWN, LayerType_OTHER};
 
             unsigned tile_width = map_parser.GetTileWidth();
             unsigned tile_height = map_parser.GetTileHeight();
@@ -49,12 +49,7 @@ void WorldMap::CreateObjectsMap(std::string map_name, GameObjectManager *game_ob
 
                     unsigned current_tile = y * map_width + x;
 
-                    for (int j = 0; j < 4; ++j) {
-
-                        if ((y * tile_width + x) == 4799) {
-
-                            int test = 0;
-                        }
+                    for (int j = 0; j < layers.size(); ++j) {
 
                         if (layers[j][current_tile] == TileType_GROUND) {
 
@@ -65,7 +60,7 @@ void WorldMap::CreateObjectsMap(std::string map_name, GameObjectManager *game_ob
                                 continue;
 
                             game_object_manager->CreateObject(TileTypeToString(TileType_GROUND), new Ground());
-                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_GROUND))->SetLayerType(LayerTypeToString(layer_name[i]));
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_GROUND))->SetLayerType(LayerTypeToString(layer_name[j]));
                             game_object_manager->GetLastGameObject(TileTypeToString(TileType_GROUND))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image);
                             game_object_manager->GetLastGameObject(TileTypeToString(TileType_GROUND))->GetRectangle()->SetSourceTexture(destination);
                         }
@@ -107,7 +102,7 @@ void WorldMap::CreateObjectsMap(std::string map_name, GameObjectManager *game_ob
                                 continue;
 
                             game_object_manager->CreateObject(TileTypeToString(TileType_PLAYER), new Player());
-                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_PLAYER))->SetLayerType(LayerTypeToString(layer_name[i]));
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_PLAYER))->SetLayerType(LayerTypeToString(layer_name[j]));
                             game_object_manager->GetLastGameObject(TileTypeToString(TileType_PLAYER))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image);
                             game_object_manager->GetLastGameObject(TileTypeToString(TileType_PLAYER))->GetRectangle()->SetSourceTexture(destination);
                         }

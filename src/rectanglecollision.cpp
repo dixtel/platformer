@@ -7,6 +7,8 @@ RectangleCollision::RectangleCollision() {
     current_position = {0, 0};
     old_position = {0, 0};
     center = {0, 0};
+    decrease_x_velocity_procent = 1;
+    decrease_y_velocity_procent = 1;
 }
 
 void RectangleCollision::Init(Vector2f position, Vector2u size, CollisionType collision_type) {
@@ -65,6 +67,22 @@ bool RectangleCollision::GetCollisionYAxsisDown() {
     return false;
 }
 
+float RectangleCollision::GetDecreasedXVelocityProcent() {
+
+    float tmp = decrease_x_velocity_procent;
+    decrease_x_velocity_procent = 1;
+
+    return tmp;
+}
+
+float RectangleCollision::GetDecreasedYVelocityProcent() {
+
+    float tmp = decrease_y_velocity_procent;
+    decrease_y_velocity_procent = 1;
+
+    return tmp;
+}
+
 Vector2f RectangleCollision::GetPosition() {
 
     return current_position;
@@ -97,6 +115,16 @@ void RectangleCollision::EnableCollisionYAxsis() {
 void RectangleCollision::EnableCollisionYAxsisDown() {
 
     is_collision_y_axsis_down = true;
+}
+
+void RectangleCollision::DecreaseXVelocity(float procent) {
+
+    decrease_x_velocity_procent = procent;
+}
+
+void RectangleCollision::DecreaseYVelocity(float procent) {
+
+    decrease_y_velocity_procent = procent;
 }
 
 CollisionType RectangleCollision::GetCollisionType() {

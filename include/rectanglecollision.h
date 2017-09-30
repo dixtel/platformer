@@ -24,6 +24,8 @@ public:
     bool GetCollisionXAxsis();
     bool GetCollisionYAxsis();
     bool GetCollisionYAxsisDown();
+    float GetDecreasedXVelocityProcent();
+    float GetDecreasedYVelocityProcent();
 
     Vector2f GetPosition();
 private:
@@ -33,6 +35,8 @@ private:
     void EnableCollisionXAxsis();
     void EnableCollisionYAxsis();
     void EnableCollisionYAxsisDown();
+    void DecreaseXVelocity(float procent);
+    void DecreaseYVelocity(float procent);
 
     CollisionType GetCollisionType();
     Vector2u GetSize();
@@ -45,6 +49,9 @@ protected:
     bool           is_collision_x_axsis;
     bool           is_collision_y_axsis;
     bool           is_collision_y_axsis_down;
+
+    float          decrease_x_velocity_procent;
+    float          decrease_y_velocity_procent;
 
     CollisionType  collision_type;
     Vector2f       current_position;

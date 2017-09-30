@@ -54,6 +54,8 @@ std::vector<TileType> MapParser::GetMapLayer(LayerType layer_type) {
             layer.push_back(TileType_DECORATION_BOX2);
         else if (raw_layer[i] == TileType_ENDMAP)
             layer.push_back(TileType_ENDMAP);
+        else if (raw_layer[i] == TileType_BOX1)
+            layer.push_back(TileType_BOX1);
         else
             layer.push_back(TileType_NONE);
     }

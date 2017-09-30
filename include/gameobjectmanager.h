@@ -6,6 +6,10 @@
 #include "include/gameobject.h"
 #include "include/gameobjects/player.h"
 #include "include/gameobjects/ground.h"
+#include "include/gameobjects/decoration.h"
+#include "include/gameobjects/endmap.h"
+#include "include/gameobjects/box1.h"
+
 
 #include <map>
 #include <vector>
@@ -44,7 +48,7 @@ public:
 
     void CreateObject(std::string group, GameObject* object);
     void CreateObject(std::string group, std::string name_object, GameObject* object);
-    void RemoveObject(std::string group, std::string name_object);
+    void RemoveObject(std::string group, std::string name_object);  
 
     GameObject *GetGameObject(std::string group, std::string name_object);
     GameObject *GetLastGameObject(std::string group);

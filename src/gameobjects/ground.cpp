@@ -4,7 +4,7 @@ Ground::Ground() {
 
 }
 
-void Ground::Init(Vector2f position, Vector2u size, SDL_Texture *texture) {
+void Ground::Init(Vector2f position, Vector2u size, SDL_Texture *texture, ImageLoader *image_loader) {
 
     this->position = position;
     this->size = size;
@@ -37,6 +37,11 @@ void Ground::HandleInput(GameObjectInput input) {
 
 }
 
+void Ground::SetPosition(Vector2f position) {
+
+    this->position = position;
+}
+
 Rectangle *Ground::GetRectangle() {
 
     return &rectangle;
@@ -45,4 +50,14 @@ Rectangle *Ground::GetRectangle() {
 RectangleCollision *Ground::GetRectangleCollision() {
 
     return &rectangle_collision;
+}
+
+Vector2f Ground::GetPosition() {
+
+    return position;
+}
+
+Vector2u Ground::GetSize() {
+
+    return size;
 }

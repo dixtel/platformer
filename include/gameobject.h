@@ -4,6 +4,7 @@
 #include "include/rectangle.h"
 #include "include/rectanglecollision.h"
 #include "include/math/vector2.h"
+#include "include/imageloader.h"
 
 #include <string>
 
@@ -16,8 +17,8 @@ enum GameObjectInput {
     DOWN_OFF,
     UP_ON,
     UP_OFF,
-    CLICK_ON_OBJECT_ON,
-    CLICK_ON_OBJECT_OFF
+    SPACEBAR_ON,
+    SPACEBAR_OFF
 };
 
 class GameObject
@@ -26,24 +27,28 @@ public:
 
     virtual ~GameObject() {}
 
-    virtual void Init(Vector2f position, Vector2u size, SDL_Texture *texture) = 0;
+    virtual void Init(Vector2f position, Vector2u size, SDL_Texture *texture, ImageLoader *image_loader) = 0;
     virtual void UpdatePhysics(double dt) = 0;
     virtual void Update() = 0;
     virtual void HandleInput(GameObjectInput input) = 0;
     virtual void OnGround() {}
+    virtual void Bring(GameObject *game_object) {}
+    virtual void DisablePhysics() {}
+    virtual void EnablePhysics() {}
+    virtual bool IsBringState() {return false;}
+    virtual bool IsBringGameObject() {}
 
-    void SetLayerType(std::string layer_type) {
+    void SetLayerType(std::string layer_type) {this->layer_type = layer_type;}
+    virtual void SetPosition(Vector2f position) = 0;
+    virtual void SetVelocity(Vector2f velocity) {}
 
-        this->layer_type = layer_type;
-    }
-
+    virtual GameObject *GetBringerGameObject() {}
     virtual Rectangle *GetRectangle() = 0;
     virtual RectangleCollision *GetRectangleCollision() = 0;
+    std::string GetLayerType() {return layer_type;}
+    virtual Vector2f GetPosition() = 0;
+    virtual Vector2u GetSize() = 0;
 
-    std::string GetLayerType() {
-
-        return layer_type;
-    }
 
 private:
 

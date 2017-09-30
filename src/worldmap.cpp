@@ -25,6 +25,14 @@ void WorldMap::CreateObjectsMap(std::string map_name, GameObjectManager *game_ob
 
             std::string path_to_image = path_to_maps + map_parser.GetImagePath();
 
+            SDL_Texture *check_path = image_loader->LoadImage(path_to_image.c_str());
+
+            if (!check_path) {
+
+                SDL_Log("(WorldMap) cannot load path to tileset, path: %s", &path_to_image);
+                return;
+            }
+
             std::vector<TileType> layer_top    = map_parser.GetMapLayer(LayerType_TOP);
             std::vector<TileType> layer_middle = map_parser.GetMapLayer(LayerType_MIDDLE);
             std::vector<TileType> layer_down   = map_parser.GetMapLayer(LayerType_DOWN);
@@ -56,70 +64,61 @@ void WorldMap::CreateObjectsMap(std::string map_name, GameObjectManager *game_ob
                             SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
                             SDL_Rect destination = map_parser.GetImageDestination(TileType_GROUND);
 
-                            if (!tile_image)
-                                continue;
-
                             game_object_manager->CreateObject(TileTypeToString(TileType_GROUND), new Ground());
                             game_object_manager->GetLastGameObject(TileTypeToString(TileType_GROUND))->SetLayerType(LayerTypeToString(layer_name[j]));
-                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_GROUND))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image);
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_GROUND))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image, image_loader);
                             game_object_manager->GetLastGameObject(TileTypeToString(TileType_GROUND))->GetRectangle()->SetSourceTexture(destination);
                         }
+                        else if (layers[j][current_tile] == TileType_DECORATION_BOX1) {
 
-//                        else if (layers[i][y * map_parser.GetTileHeight() + x] == TileType_DECORATION_BOX1) {
+                            SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
+                            SDL_Rect destination = map_parser.GetImageDestination(TileType_DECORATION_BOX1);
 
-//                            SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
-//                            SDL_Rect destination = map_parser.GetImageDestination(TileType_DECORATION_BOX1);
+                            game_object_manager->CreateObject(TileTypeToString(TileType_DECORATION_BOX1), new Decoration());
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_DECORATION_BOX1))->SetLayerType(LayerTypeToString(layer_name[j]));
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_DECORATION_BOX1))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image, image_loader);
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_DECORATION_BOX1))->GetRectangle()->SetSourceTexture(destination);
+                        }
+                        else if (layers[j][current_tile] == TileType_DECORATION_BOX2) {
 
-//                            if (!tile_image)
-//                                continue;
+                            SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
+                            SDL_Rect destination = map_parser.GetImageDestination(TileType_DECORATION_BOX2);
 
-//                            game_object_manager->CreateObject(TileTypeToString(TileType_DECORATION_BOX1), new Ground());
-//                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_DECORATION_BOX1))->SetLayerType(LayerTypeToString(layer_name[i]));
-//                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_DECORATION_BOX1))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image);
-//                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_DECORATION_BOX1))->GetRectangle()->SetSourceTexture(destination);
-//                        }
-
-//                        else if (layers[i][y * map_parser.GetTileHeight() + x] == TileType_DECORATION_BOX2) {
-
-//                            SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
-//                            SDL_Rect destination = map_parser.GetImageDestination(TileType_DECORATION_BOX2);
-
-//                            if (!tile_image)
-//                                continue;
-
-//                            game_object_manager->CreateObject(TileTypeToString(TileType_DECORATION_BOX2), new Ground());
-//                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_DECORATION_BOX2))->SetLayerType(LayerTypeToString(layer_name[i]));
-//                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_DECORATION_BOX2))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image);
-//                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_DECORATION_BOX2))->GetRectangle()->SetSourceTexture(destination);
-//                        }
-
+                            game_object_manager->CreateObject(TileTypeToString(TileType_DECORATION_BOX2), new Decoration());
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_DECORATION_BOX2))->SetLayerType(LayerTypeToString(layer_name[j]));
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_DECORATION_BOX2))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image, image_loader);
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_DECORATION_BOX2))->GetRectangle()->SetSourceTexture(destination);
+                        }
                         else if (layers[j][current_tile] == TileType_PLAYER) {
 
                             SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
                             SDL_Rect destination = map_parser.GetImageDestination(TileType_PLAYER);
 
-                            if (!tile_image)
-                                continue;
-
                             game_object_manager->CreateObject(TileTypeToString(TileType_PLAYER), new Player());
                             game_object_manager->GetLastGameObject(TileTypeToString(TileType_PLAYER))->SetLayerType(LayerTypeToString(layer_name[j]));
-                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_PLAYER))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image);
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_PLAYER))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image, image_loader);
                             game_object_manager->GetLastGameObject(TileTypeToString(TileType_PLAYER))->GetRectangle()->SetSourceTexture(destination);
                         }
+                        else if (layers[j][current_tile] == TileType_ENDMAP) {
 
-//                        else if (layers[i][y * map_parser.GetTileHeight() + x] == TileType_ENDMAP) {
+                            SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
+                            SDL_Rect destination = map_parser.GetImageDestination(TileType_ENDMAP);
 
-//                            SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
-//                            SDL_Rect destination = map_parser.GetImageDestination(TileType_ENDMAP);
+                            game_object_manager->CreateObject(TileTypeToString(TileType_ENDMAP), new EndMap());
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_ENDMAP))->SetLayerType(LayerTypeToString(layer_name[j]));
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_ENDMAP))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image, image_loader);
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_ENDMAP))->GetRectangle()->SetSourceTexture(destination);
+                        }
+                        else if (layers[j][current_tile] == TileType_BOX1) {
 
-//                            if (!tile_image)
-//                                continue;
+                            SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
+                            SDL_Rect destination = map_parser.GetImageDestination(TileType_BOX1);
 
-//                            game_object_manager->CreateObject(TileTypeToString(TileType_ENDMAP), new Ground());
-//                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_ENDMAP))->SetLayerType(LayerTypeToString(layer_name[i]));
-//                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_ENDMAP))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image);
-//                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_ENDMAP))->GetRectangle()->SetSourceTexture(destination);
-//                        }
+                            game_object_manager->CreateObject(TileTypeToString(TileType_BOX1), new Box1());
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_BOX1))->SetLayerType(LayerTypeToString(layer_name[j]));
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_BOX1))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image, image_loader);
+                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_BOX1))->GetRectangle()->SetSourceTexture(destination);
+                        }
                     }
                 }
             }

@@ -1,5 +1,5 @@
-#ifndef GROUND_H
-#define GROUND_H
+#ifndef ENDMAP_H
+#define ENDMAP_H
 
 #include <SDL2/SDL.h>
 
@@ -8,11 +8,11 @@
 #include "include/gameobject.h"
 #include "include/math/vector2.h"
 
-class Ground : public GameObject
+class EndMap : public GameObject
 {
 public:
 
-    Ground();
+    EndMap();
 
     void Init(Vector2f position, Vector2u size, SDL_Texture *texture, ImageLoader *image_loader);
 
@@ -28,7 +28,6 @@ public:
     Vector2u GetSize();
 private:
 
-    SDL_Rect           destination_texture;
     Rectangle          rectangle;
     RectangleCollision rectangle_collision;
 
@@ -36,4 +35,4 @@ private:
     Vector2u           size;
 };
 
-#endif // GROUND_H
+#endif // ENDMAP_H

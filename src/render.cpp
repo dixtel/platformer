@@ -1,5 +1,6 @@
 #include "include/render.h"
 
+#include <SDL2/SDL_log.h>
 Render::Render(SDL_Renderer *renderer, SDL_Color clear_color) {
 
     this->renderer = renderer;
@@ -35,8 +36,6 @@ void Render::Draw(Rectangle *rectangle) {
 
     SDL_Rect fixed_position = {rectangle->GetPosition().x - view.x, rectangle->GetPosition().y - view.y, rectangle->GetRectDestination().w, rectangle->GetRectDestination().h};
 
-    SDL_SetRenderDrawColor(renderer, rectangle->GetRectColor().r, rectangle->GetRectColor().g, rectangle->GetRectColor().b, rectangle->GetRectColor().a);
-    SDL_RenderFillRect(renderer, &fixed_position);
     SDL_SetRenderDrawColor(renderer, clear_color.r, clear_color.g, clear_color.b, clear_color.a);
     SDL_RenderCopy(renderer,
                    rectangle->GetTexture(),

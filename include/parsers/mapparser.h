@@ -15,6 +15,7 @@ enum TileType {
     TileType_PLAYER = 3,
     TileType_DECORATION_BOX2 = 4,
     TileType_ENDMAP = 5,
+    TileType_BOX1 = 6,
 };
 
 enum LayerType {
@@ -27,27 +28,29 @@ enum LayerType {
 static std::string TileTypeToString(TileType type) {
 
      if (type == TileType_GROUND)
-         return "Ground";
+         return "ground";
      else if (type == TileType_DECORATION_BOX1)
-         return "Decoration_box1";
+         return "decoration_box1";
      else if (type == TileType_PLAYER)
-         return "Player";
+         return "player";
      else if (type == TileType_DECORATION_BOX2)
-         return "Decoration_box2";
+         return "decoration_box2";
      else if (type == TileType_ENDMAP)
-         return "End map";
+         return "end_map";
+     else if (type == TileType_BOX1)
+         return "box1";
 }
 
 static std::string LayerTypeToString(LayerType type) {
 
      if (type == LayerType_OTHER)
-         return "Other";
+         return "other";
      else if (type == LayerType_TOP)
-         return "Top";
+         return "top";
      else if (type == LayerType_MIDDLE)
-         return "Middle";
+         return "middle";
      else if (type == LayerType_DOWN)
-         return "Down";
+         return "down";
 }
 
 class MapParser
@@ -60,8 +63,8 @@ public:
 
     unsigned GetTileWidth();
     unsigned GetTileHeight();
-    unsigned GetMapWidth();       // height in tiles
-    unsigned GetMapHeight();      // width in tiles
+    unsigned GetMapWidth();
+    unsigned GetMapHeight();
     std::string GetImagePath();
     std::vector<TileType> GetMapLayer(LayerType name_layer);
     SDL_Rect GetImageDestination(TileType tile);

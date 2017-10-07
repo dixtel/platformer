@@ -1,10 +1,14 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
+#include <SDL2/SDL.h>
+
 #include "include/rectangle.h"
 #include "include/rectanglecollision.h"
-#include "include/math/vector2.h"
 #include "include/imageloader.h"
+#include "include/animation.h"
+#include "include/math/vector2.h"
+
 
 #include <string>
 
@@ -48,7 +52,6 @@ public:
     std::string GetLayerType() {return layer_type;}
     virtual Vector2f GetPosition() = 0;
     virtual Vector2u GetSize() = 0;
-
 
 private:
 

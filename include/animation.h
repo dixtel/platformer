@@ -23,18 +23,18 @@ public:
     void SetFrameSpeed(float frame_speed);
     void SetAnimationPosition(Vector2f position);
     void StartAnimation();
+    void BreakAnimation();
     void EnableRepeat();
     void DisableRepeat();
 
-    Rectangle *GetCurrentFrame();
+    Rectangle *GetCurrentFrameRectangle();
 
 private:
 
+    void CreateRows(int rows);
     void AddFrmae(int row, SDL_Texture *frame);
-    void UpdateCurrentFrame();
 
-    Rectangle *current_animation_rectangle = nullptr;
-    SDL_Texture *texture_animation;
+    SDL_Surface *surface_animation;
     std::map<int, std::vector<Rectangle*>> frames;
     ImageLoader *image_loader = nullptr;
 
@@ -54,7 +54,8 @@ private:
     Vector2f animation_position;
 
     bool repeat;
-    bool animation_start;
+    bool start_animation;
+    bool break_animation;
     bool is_animation;
 };
 

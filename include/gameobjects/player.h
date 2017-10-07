@@ -3,11 +3,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "include/rectangle.h"
-#include "include/rectanglecollision.h"
 #include "include/gameobject.h"
-#include "include/math/vector2.h"
-#include "include/imageloader.h"
 
 class Player : public GameObject
 {
@@ -33,8 +29,9 @@ public:
     Vector2u GetSize();
 private:
 
-    Rectangle          rectangle;
+    Rectangle         *rectangle = nullptr;
     RectangleCollision rectangle_collision;
+    Animation          animation;
 
     Vector2f           position;
     Vector2u           size;

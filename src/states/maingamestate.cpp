@@ -8,7 +8,7 @@ MainGameState::MainGameState(const unsigned width_state, const unsigned height_s
     this->height_state = height_state;
     game_exit = false;
 
-    image_loader.Init(render);
+    image_loader.Init(render->GetRenderer());
     handle_input.Init(width_state, height_state);
     worldmap.Init("res/maps/", &image_loader);
 

@@ -4,19 +4,20 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "include/render.h"
-
 class ImageLoader
 {
 public:
 
-    ImageLoader();
+    ~ImageLoader();
 
-    void Init(Render *render);
-    SDL_Texture *LoadImage(const char *path);
+    void Init(SDL_Renderer *renderer);
+    SDL_Texture *LoadTexture(const char *path);
+    SDL_Surface *LoadSurface(const char *path);
+
+    SDL_Texture *ConvertSurfaceToTexture(SDL_Surface *surface);
 private:
 
-    Render *render = nullptr;
+    SDL_Renderer *renderer = nullptr;
 };
 
 #endif // IMAGELOADER_H

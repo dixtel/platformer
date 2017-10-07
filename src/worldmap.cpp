@@ -25,7 +25,7 @@ void WorldMap::CreateObjectsMap(std::string map_name, GameObjectManager *game_ob
 
             std::string path_to_image = path_to_maps + map_parser.GetImagePath();
 
-            SDL_Texture *check_path = image_loader->LoadImage(path_to_image.c_str());
+            SDL_Texture *check_path = image_loader->LoadTexture(path_to_image.c_str());
 
             if (!check_path) {
 
@@ -61,7 +61,7 @@ void WorldMap::CreateObjectsMap(std::string map_name, GameObjectManager *game_ob
 
                         if (layers[j][current_tile] == TileType_GROUND) {
 
-                            SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
+                            SDL_Texture *tile_image = image_loader->LoadTexture(path_to_image.c_str());
                             SDL_Rect destination = map_parser.GetImageDestination(TileType_GROUND);
 
                             game_object_manager->CreateObject(TileTypeToString(TileType_GROUND), new Ground());
@@ -71,7 +71,7 @@ void WorldMap::CreateObjectsMap(std::string map_name, GameObjectManager *game_ob
                         }
                         else if (layers[j][current_tile] == TileType_DECORATION_BOX1) {
 
-                            SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
+                            SDL_Texture *tile_image = image_loader->LoadTexture(path_to_image.c_str());
                             SDL_Rect destination = map_parser.GetImageDestination(TileType_DECORATION_BOX1);
 
                             game_object_manager->CreateObject(TileTypeToString(TileType_DECORATION_BOX1), new Decoration());
@@ -81,7 +81,7 @@ void WorldMap::CreateObjectsMap(std::string map_name, GameObjectManager *game_ob
                         }
                         else if (layers[j][current_tile] == TileType_DECORATION_BOX2) {
 
-                            SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
+                            SDL_Texture *tile_image = image_loader->LoadTexture(path_to_image.c_str());
                             SDL_Rect destination = map_parser.GetImageDestination(TileType_DECORATION_BOX2);
 
                             game_object_manager->CreateObject(TileTypeToString(TileType_DECORATION_BOX2), new Decoration());
@@ -91,17 +91,17 @@ void WorldMap::CreateObjectsMap(std::string map_name, GameObjectManager *game_ob
                         }
                         else if (layers[j][current_tile] == TileType_PLAYER) {
 
-                            SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
+                            SDL_Texture *tile_image = image_loader->LoadTexture(path_to_image.c_str());
                             SDL_Rect destination = map_parser.GetImageDestination(TileType_PLAYER);
 
                             game_object_manager->CreateObject(TileTypeToString(TileType_PLAYER), new Player());
                             game_object_manager->GetLastGameObject(TileTypeToString(TileType_PLAYER))->SetLayerType(LayerTypeToString(layer_name[j]));
                             game_object_manager->GetLastGameObject(TileTypeToString(TileType_PLAYER))->Init(Vector2f(x_pos, y_pos), Vector2u(tile_width, tile_height), tile_image, image_loader);
-                            game_object_manager->GetLastGameObject(TileTypeToString(TileType_PLAYER))->GetRectangle()->SetSourceTexture(destination);
+                            //game_object_manager->GetLastGameObject(TileTypeToString(TileType_PLAYER))->GetRectangle()->SetSourceTexture(destination);
                         }
                         else if (layers[j][current_tile] == TileType_ENDMAP) {
 
-                            SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
+                            SDL_Texture *tile_image = image_loader->LoadTexture(path_to_image.c_str());
                             SDL_Rect destination = map_parser.GetImageDestination(TileType_ENDMAP);
 
                             game_object_manager->CreateObject(TileTypeToString(TileType_ENDMAP), new EndMap());
@@ -111,7 +111,7 @@ void WorldMap::CreateObjectsMap(std::string map_name, GameObjectManager *game_ob
                         }
                         else if (layers[j][current_tile] == TileType_BOX1) {
 
-                            SDL_Texture *tile_image = image_loader->LoadImage(path_to_image.c_str());
+                            SDL_Texture *tile_image = image_loader->LoadTexture(path_to_image.c_str());
                             SDL_Rect destination = map_parser.GetImageDestination(TileType_BOX1);
 
                             game_object_manager->CreateObject(TileTypeToString(TileType_BOX1), new Box1());

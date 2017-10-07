@@ -3,7 +3,6 @@
 
 #include <SDL2/SDL.h>
 
-#include "include/rectangle.h"
 #include "include/gameobject.h"
 
 #include <vector>
@@ -20,11 +19,14 @@ public:
     void SetColorClear(SDL_Color color);
     void SetView(Vector2f position, Vector2u size);
     void Clear();
-    void Draw(Rectangle *rectangle);
     void Draw(std::vector<GameObject*> &gameobjects);
     void Display();
 
     SDL_Renderer *GetRenderer();
+
+private:
+
+    void Draw(Rectangle *rectangle);
 };
 
 #endif // RENDER_H

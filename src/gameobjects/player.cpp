@@ -37,12 +37,11 @@ void Player::Init(Vector2f position, Vector2u size, SDL_Texture *texture, ImageL
     gravity      = 8;
     friction     = 10;
 
-    rectangle.SetPosition(position);
-    rectangle.SetSize(size);
-    rectangle.SetTexture(texture);
-    rectangle.SetSourceTexture({0, 0, size.x, size.y});
-
     rectangle_collision.Init(position, size, RIGHTBODY);
+
+    animation.Init(image_loader);
+    animation.LoadAnimation("res/player_animation.png", 52, 52, 0, 0);
+    animation.SetFrameSpeed(0.001);
 
     Update();
 }
@@ -151,15 +150,22 @@ void Player::UpdatePhysics(double dt) {
             bringer_object->SetVelocity(velocity);
             bringer_object = nullptr;
             is_bring_game_object_state = false;
+
+            animation.BreakAnimation();
         }
 
     }
+
+    animation.Update(dt);
 }
 
 void Player::Update() {
 
     position = rectangle_collision.GetPosition();
-    rectangle.SetPosition(position);
+    animation.SetAnimationPosition(position);
+    rectangle = animation.GetCurrentFrameRectangle();
+    rectangle->SetSize(Vector2u(32, 32));
+    rectangle->SetSourceTexture(SDL_Rect{10, 10, 32, 32});
 }
 
 void Player::HandleInput(GameObjectInput input) {
@@ -234,7 +240,16 @@ void Player::Bring(GameObject *game_object) {
 
             bringer_object = game_object;
             bringer_object->DisablePhysics();
+
+            if (is_player_right_state)
+                animation.SetAnimationRow(0);
+            else
+                animation.SetAnimationRow(1);
+
+            animation.StartAnimation();
+
             is_bring_game_object_state = true;
+
             return;
         }
     }
@@ -260,7 +275,7 @@ void Player::SetPosition(Vector2f position) {
 
 Rectangle *Player::GetRectangle() {
 
-    return &rectangle;
+    return rectangle;
 }
 
 RectangleCollision *Player::GetRectangleCollision() {

@@ -1,6 +1,5 @@
 #include "include/render.h"
 
-#include <SDL2/SDL_log.h>
 Render::Render(SDL_Renderer *renderer, SDL_Color clear_color) {
 
     this->renderer = renderer;
@@ -26,23 +25,6 @@ void Render::Clear() {
     SDL_RenderClear(renderer);
 }
 
-void Render::Draw(Rectangle *rectangle) {
-
-    if (!rectangle) {
-
-        SDL_Log("Error: rectangle to draw are NULL (Render)");
-        return;
-    }
-
-    SDL_Rect fixed_position = {rectangle->GetPosition().x - view.x, rectangle->GetPosition().y - view.y, rectangle->GetRectDestination().w, rectangle->GetRectDestination().h};
-
-    SDL_SetRenderDrawColor(renderer, clear_color.r, clear_color.g, clear_color.b, clear_color.a);
-    SDL_RenderCopy(renderer,
-                   rectangle->GetTexture(),
-                   &rectangle->GetSourceTexture(),
-                   &fixed_position);
-}
-
 void Render::Draw(std::vector<GameObject*> &gameobjects) {
 
     for (std::vector<GameObject*>::iterator it = gameobjects.begin(); it != gameobjects.end(); ++it) {
@@ -59,5 +41,22 @@ void Render::Display() {
 SDL_Renderer *Render::GetRenderer() {
 
     return renderer;
+}
+
+void Render::Draw(Rectangle *rectangle) {
+
+    if (!rectangle) {
+
+        SDL_Log("Error: rectangle to draw are NULL (Render)");
+        return;
+    }
+
+    SDL_Rect fixed_position = {rectangle->GetPosition().x - view.x, rectangle->GetPosition().y - view.y, rectangle->GetRectDestination().w, rectangle->GetRectDestination().h};
+
+    SDL_SetRenderDrawColor(renderer, clear_color.r, clear_color.g, clear_color.b, clear_color.a);
+    SDL_RenderCopy(renderer,
+                   rectangle->GetTexture(),
+                   &rectangle->GetSourceTexture(),
+                   &fixed_position);
 }
 
